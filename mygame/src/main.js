@@ -94,22 +94,30 @@ onKeyDown("down", () => {
 var collidedBox = ""
 bean.onCollide("gardenbox1", (gardenbox1) => {
 	collidedBox = "gardenbox1"
-	openSeedSelector();
+	if(gardenBoxContents[0]=="empty"){
+		openSeedSelector();
+	}
 	
 })
 bean.onCollide("gardenbox2", (gardenbox2) => {
 	collidedBox = "gardenbox2"
-	openSeedSelector();
+	if(gardenBoxContents[1]=="empty"){
+		openSeedSelector();
+	}
 	
 })
 bean.onCollide("gardenbox3", (gardenbox3) => {
 	collidedBox = "gardenbox3"
-	openSeedSelector();
+	if(gardenBoxContents[2]=="empty"){
+		openSeedSelector();
+	}
 	
 })
 bean.onCollide("gardenbox4", (gardenbox4) => {
 	collidedBox = "gardenbox4"
-	openSeedSelector();
+	if(gardenBoxContents[3]=="empty"){
+		openSeedSelector();
+	}
 	
 })
 
