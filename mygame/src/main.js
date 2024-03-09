@@ -6,6 +6,15 @@ const k = kaboom(
     height: 520,
 	})
 
+k.loadSprite("background", "sprites/gardenbackground.png");
+
+// Create a background entity
+const background = k.add([
+  k.sprite("background"), // Use the loaded background image
+  k.pos(0, 0),
+  k.scale(.52), // Adjust the scale if needed
+]);
+
 k.loadSprite("bean", "sprites/bean.png")
 k.loadSprite("gardenbox", "sprites/carrotgrownbox.png")
 
@@ -16,10 +25,12 @@ const bean = k.add([
 	k.body(),
 ])
 
+
+
 const gardenbox = k.add([
-	k.pos(320, 80),
+	k.pos(320, 40),
 	k.sprite("gardenbox"),
-	k.scale(.5),
+	k.scale(.25),
 	k.area(),
 	k.body({ isStatic: true}),
 ])
@@ -50,13 +61,7 @@ onKeyDown("up", () => {
 
 onKeyDown("down", () => {
 	bean.move(0, SPEED)
-})
-
-
-/******** COLLISION  ********/
-
-k.onCollide("gardenbox", () => {
-	console.log('Collision detected! Bean value, Gardenbox value');
+ole.log('Collision detected! Bean value, Gardenbox value');
 	
     k.addKaboom()
 })
