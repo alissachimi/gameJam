@@ -13,6 +13,7 @@ const bean = k.add([
 	k.pos(120, 80),
 	k.sprite("bean"),
 	k.area(),
+	k.body(),
 ])
 
 const gardenbox = k.add([
@@ -20,6 +21,7 @@ const gardenbox = k.add([
 	k.sprite("gardenbox"),
 	k.scale(.5),
 	k.area(),
+	k.body({ isStatic: true}),
 ])
 
 const SPEED = 300;
@@ -50,7 +52,10 @@ onKeyDown("down", () => {
 	bean.move(0, SPEED)
 })
 
-k.onCollide("bean", "gardenbox", () => {
+
+/******** COLLISION  ********/
+
+k.onCollide("gardenbox", () => {
 	console.log('Collision detected! Bean value, Gardenbox value');
 	
     k.addKaboom()
