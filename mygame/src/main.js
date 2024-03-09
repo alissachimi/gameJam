@@ -73,14 +73,6 @@ var gardenbox4 = add([
 
 const SPEED = 300;
 
-/*k.onMouseMove(() => {
-	const { x, y } = mousePos();
-	const angle = Math.atan2(y - bean.pos.y, x - bean.pos.x);
-	const distance = Math.sqrt((x - bean.pos.x)^2 + (y - bean.pos.y)^2)
-	bean.move(vec2(400 * Math.cos(angle),400 * Math.sin(angle)));
-
-})*/
-
 /******** MOVEMENT  ********/
 
 onKeyDown("left", () => {
@@ -138,15 +130,15 @@ function openSeedSelector(){
 	}
 }
 
-document.getElementById("cornButton").addEventListener("click", function() {plantSeed('corn')}, false);
+document.getElementById("cornButton").addEventListener("click", function() {plantSeed('corn'); document.getElementById("myModal").style.display = "none";}, false);
 document.getElementById("pumpkinButton").addEventListener("click", function() { plantSeed('pumpkin')}, false);
 document.getElementById("strawberryButton").addEventListener("click", function() { plantSeed('strawberry')}, false);
 document.getElementById("carrotButton").addEventListener("click", function() { plantSeed('carrot')}, false);
 document.getElementById("tomatoButton").addEventListener("click", function() { plantSeed('tomato')}, false);
 
-function plantSeed(fruitType){
+function plantSeed(fruitType) {
 	var modal = document.getElementById("myModal");
-	console.log(collidedBox)
+	console.log(collidedBox);
 	if(collidedBox=="gardenbox1"){
 		destroy(gardenbox1);
 		gardenbox1 = add([
@@ -203,6 +195,7 @@ function plantSeed(fruitType){
 
 var gardenBoxes=[gardenbox1, gardenbox2, gardenbox3, gardenbox4]
 var gardenBoxNames=["gardenbox1", "gardenbox2", "gardenbox3", "gardenbox4"]
+var gardenBoxPositions = [[10, 50], [320, 50], [320, 340], [10, 340]]
 
 document.getElementById("growSeedsB").addEventListener("click", growSeed, false);
 function growSeed(){
@@ -212,7 +205,7 @@ function growSeed(){
 			destroy(gardenBoxes[i]);
 			if(rand(0,1)<probabilityOfSurvival(gardenBoxContents[i])){
 				gardenBoxes[i] = add([
-					pos(10, 340),
+					pos(gardenBoxPositions[i]),
 					sprite(gardenBoxContents[i] + "grownbox"),
 					scale(.25),
 					area(),
@@ -221,8 +214,8 @@ function growSeed(){
 				])
 			} else {
 				gardenBoxes[i] = add([
-					pos(10, 340),
-					sprite(gardenBoxContents[i] + "deadbox"),
+					pos(gardenBoxPositions[i]),
+					sprite(gardenBoxPositions[i] + "deadbox"),
 					scale(.25),
 					area(),
 					body({ isStatic: true}),
