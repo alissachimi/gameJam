@@ -130,7 +130,7 @@ function openSeedSelector(){
 	}
 }
 
-document.getElementById("cornButton").addEventListener("click", function() {plantSeed('corn'); document.getElementById("myModal").style.display = "none";}, false);
+document.getElementById("cornButton").addEventListener("click", function() {plantSeed('corn');}, false);
 document.getElementById("pumpkinButton").addEventListener("click", function() { plantSeed('pumpkin')}, false);
 document.getElementById("strawberryButton").addEventListener("click", function() { plantSeed('strawberry')}, false);
 document.getElementById("carrotButton").addEventListener("click", function() { plantSeed('carrot')}, false);
