@@ -1,7 +1,6 @@
 import kaboom from "kaboom"
 
-kaboom( 
-	{
+kaboom({
 	width: 520,
     height: 520,
 })
