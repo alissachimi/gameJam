@@ -8,7 +8,9 @@
 			justify-content: center;
 			align-self: center;
 			text-align: center;
+			background-color: floralwhite;
 		}
+
 		canvas{
 			border-radius: 3%;
 			margin: 0;
@@ -23,7 +25,7 @@
 		display: none; /* Hidden by default */
 		position: fixed; /* Stay in place */
 		z-index: 1; /* Sit on top */
-		padding-top: 100px; /* Location of the box */
+		padding-top: 375px; /* Location of the box */
 		left: 0;
 		top: 0;
 		width: 100%; /* Full width */
@@ -35,12 +37,13 @@
 
 		/* Modal Content */
 		.modal-content {
-		background-color: #fefefe;
 		margin: auto;
 		padding: 20px;
-		border: 1px solid #888;
+		border: 1px solid floralwhite;
 		width: 400px;
 		height: 150px;
+		background-color: #bf6c5a; 
+		border-radius: 5px;
 		}
 
 		/* The Close Button */
@@ -64,6 +67,18 @@
 		.fruitButton:hover{
 			cursor: pointer;
 		}
+
+		#inventory {
+			background-color: #f2bc79;
+			margin-top: 20px;
+			margin-left: 20px;
+			color: floralwhite
+		}
+
+		td {
+			border: 2px solid white;
+		}
+		
 	</style>
 </head>
 <body>
@@ -72,13 +87,13 @@
 		<div id="myModal" class="modal">
 			
 			<!-- Modal content -->
-			<div class="modal-content" style="background-color: #bf6c5a;">
+			<div class="modal-content">
 			  <span class="close">&times;</span>
 			  <p>Which seed would you like to plant here?</p>
 			  
 			  <div style="display:flex; text-align: center;
 			  justify-content: center; background-color: floralwhite;
-			  border-radius: 2%;">
+			  border-radius: 2px;">
 				
 				<button class="fruitButton" id="cornButton"><img width="75px" src="sprites/corn.png"></button>
 				<button class="fruitButton" id="pumpkinButton"><img width="75px" src="sprites/pumpkin.png"></button>
@@ -89,6 +104,25 @@
 			</div>
 		  
 		  </div>
+		
+		<div>
+			<table id="inventory">
+			<tr id="fruitImages"> 
+				<td id="cornImage"><img width="30px" src="sprites/corn.png"></td>
+				<td id="pumpkinImage"><img width="30px" src="sprites/pumpkin.png"></td>
+				<td id="tomatoImage"><img width="30px" src="sprites/tomato.png"></td>
+				<td id="carrotImage"><img width="30px" src="sprites/carrot.png"></td>
+				<td id="strawberryImage"><img width="30px" src="sprites/strawberry.png"></td>
+			</tr>
+			<tr id="fruitAmounts">
+				<td id="cornAmount">0</td>
+				<td id="pumpkinAmount">0</td>
+				<td id="tomatoAmount">0</td>
+				<td id="carrotAmount">0</td>
+				<td id="strawberryAmount">0</td>
+			</tr>
+			</table>
+		</div>
 		  
 	</div>
 	<button id="growSeedsB">grow</button>
