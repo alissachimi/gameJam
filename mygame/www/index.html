@@ -2,6 +2,9 @@
 <html>
 <head>
 	<title>mygame</title>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
 	<style>
 		body{
 			justify-self: center;
@@ -44,6 +47,8 @@
 		height: 150px;
 		background-color: #bf6c5a; 
 		border-radius: 5px;
+		color: floralwhite;
+		font-family: "Pixelify Sans", sans-serif;
 		}
 
 		/* The Close Button */
@@ -77,6 +82,20 @@
 
 		td {
 			border: 2px solid white;
+			font-family: "Pixelify Sans", sans-serif;
+		}
+
+		#coinbox {
+			position: absolute;
+			top: 110px;
+			background-color: #f2bc79;
+			margin-left: 20px;
+			border: 2px solid white;
+			color: floralwhite;
+		}
+
+		#coinAmount {
+			width: 28px;
 		}
 		
 	</style>
@@ -125,6 +144,14 @@
 		</div>
 		  
 	</div>
+
+	<table id="coinbox">
+		<tr>
+			<td><img width="30px" src="sprites/corn.png"></td>
+			<td id="coinAmount">0</td>
+		</tr>
+	</table>
+	
 	<button id="growSeedsB">grow</button>
 
 	  
