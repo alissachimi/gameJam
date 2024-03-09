@@ -238,6 +238,12 @@ function plantSeed(fruitType) {
 
 }
 
+
+/******** INVENTORY *********/
+var cornAmount = 0;
+
+
+
 var gardenBoxes=[gardenbox1, gardenbox2, gardenbox3, gardenbox4]
 var gardenBoxNames=["gardenbox1", "gardenbox2", "gardenbox3", "gardenbox4"]
 var gardenBoxPositions = [[10, 50], [320, 50], [320, 340], [10, 340]]
