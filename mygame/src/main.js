@@ -36,7 +36,16 @@ const bean = add([
 	body(),
 ])
 
+var playerInventory={
+	'carrot':0,
+	'corn':0,
+	'strawberry':0,
+	'pumpkin': 0,
+	'tomato': 0
+};
+
 var gardenBoxContents=["empty", "empty", "empty", "empty"]
+var gardenBoxStatus=["empty", "empty", "empty", "empty"]
 
 var gardenbox1 = add([
 	pos(10, 50),
@@ -97,12 +106,24 @@ bean.onCollide("gardenbox1", (gardenbox1) => {
 	if(gardenBoxContents[0]=="empty"){
 		openSeedSelector();
 	}
+	if(gardenBoxStatus[0]=="dead"){
+		removeDeadProduce();
+	}
+	if(gardenBoxStatus[0]=="grown"){
+		harvestProduce(0);
+	}
 	
 })
 bean.onCollide("gardenbox2", (gardenbox2) => {
 	collidedBox = "gardenbox2"
 	if(gardenBoxContents[1]=="empty"){
 		openSeedSelector();
+	}
+	if(gardenBoxStatus[1]=="dead"){
+		removeDeadProduce();
+	}
+	if(gardenBoxStatus[1]=="grown"){
+		harvestProduce(1);
 	}
 	
 })
@@ -111,12 +132,24 @@ bean.onCollide("gardenbox3", (gardenbox3) => {
 	if(gardenBoxContents[2]=="empty"){
 		openSeedSelector();
 	}
+	if(gardenBoxStatus[2]=="dead"){
+		removeDeadProduce();
+	}
+	if(gardenBoxStatus[2]=="grown"){
+		harvestProduce(2);
+	}
 	
 })
 bean.onCollide("gardenbox4", (gardenbox4) => {
 	collidedBox = "gardenbox4"
 	if(gardenBoxContents[3]=="empty"){
 		openSeedSelector();
+	}
+	if(gardenBoxStatus[3]=="dead"){
+		removeDeadProduce();
+	}
+	if(gardenBoxStatus[3]=="grown"){
+		harvestProduce(3);
 	}
 	
 })
@@ -158,6 +191,7 @@ function plantSeed(fruitType) {
 			"gardenbox1"
 		])
 		gardenBoxContents[0]=fruitType;
+		gardenBoxStatus[0] = "planted";
 	}
 	if(collidedBox=="gardenbox2"){
 		destroy(gardenbox2);
@@ -170,6 +204,7 @@ function plantSeed(fruitType) {
 			"gardenbox2"
 		])
 		gardenBoxContents[1]=fruitType;
+		gardenBoxStatus[1] = "planted";
 	}
 	if(collidedBox=="gardenbox3"){
 		destroy(gardenbox3);
@@ -182,6 +217,7 @@ function plantSeed(fruitType) {
 			"gardenbox3"
 		])
 		gardenBoxContents[2]=fruitType;
+		gardenBoxStatus[2] = "planted";
 	}
 	if(collidedBox=="gardenbox4"){
 		destroy(gardenbox4);
@@ -194,6 +230,7 @@ function plantSeed(fruitType) {
 			"gardenbox4"
 		])
 		gardenBoxContents[3]=fruitType;
+		gardenBoxStatus[3] = "planted";
 	}
 
 	modal.style.display = "none";
@@ -226,6 +263,8 @@ function growSeed(){
 					body({ isStatic: true}),
 					gardenBoxNames[i]
 				])
+
+				gardenBoxStatus[i] = "grown";
 			} else {
 				gardenBoxes[i] = add([
 					pos(gardenBoxPositions[i]),
@@ -235,6 +274,7 @@ function growSeed(){
 					body({ isStatic: true}),
 					gardenBoxNames[i]
 				])
+				gardenBoxStatus[i] = "dead";
 			}
 		}
 	}
@@ -244,6 +284,20 @@ function probabilityOfSurvival(fruitType){
 	return 1;
 }
 
-function harvestProduce(){
-	
+function harvestProduce(index){
+	destroy(gardenBoxes[index]);
+
+	gardenBoxes[index] = add([
+		pos(gardenBoxPositions[index]),
+		sprite("gardenbox"),
+		scale(.25),
+		area(),
+		body({ isStatic: true}),
+		gardenBoxNames[index]
+	])
+
+	//increase inventory of the harvested item
+	playerInventory[gardenBoxContents[index]]+=5;
+	gardenBoxStatus[index] = "empty";
+	gardenBoxContents[index] = "empty"
 }
