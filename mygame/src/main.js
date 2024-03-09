@@ -16,24 +16,50 @@ const background = add([
 ]);
 
 loadSprite("bean", "sprites/bean.png")
-loadSprite("gardenbox", "sprites/carrotgrownbox.png")
+loadSprite("gardenbox", "sprites/gardenbox.png")
+loadSprite("carrotplantedbox", "sprites/carrotplantedbox.png")
+
 
 const bean = add([
 	sprite("bean"),
-	pos(120, 80),
+	pos(225, 225),
 	area(),
 	body(),
 ])
 
 
 
-const gardenbox = add([
-	pos(320, 40),
+const gardenbox1 = add([
+	pos(10, 50),
 	sprite("gardenbox"),
 	scale(.25),
 	area(),
 	body({ isStatic: true}),
-	"gardenbox"
+	"gardenbox1"
+])
+const gardenbox2 = add([
+	pos(320, 50),
+	sprite("gardenbox"),
+	scale(.25),
+	area(),
+	body({ isStatic: true}),
+	"gardenbox2"
+])
+const gardenbox3 = add([
+	pos(320, 340),
+	sprite("gardenbox"),
+	scale(.25),
+	area(),
+	body({ isStatic: true}),
+	"gardenbox3"
+])
+const gardenbox4 = add([
+	pos(10, 340),
+	sprite("gardenbox"),
+	scale(.25),
+	area(),
+	body({ isStatic: true}),
+	"gardenbox4"
 ])
 
 const SPEED = 300;
@@ -64,6 +90,41 @@ onKeyDown("down", () => {
 	bean.move(0, SPEED)	
 })
 
-bean.onCollide("gardenbox", (gardenbox) => {
-	destroy(gardenbox);
+bean.onCollide("gardenbox1", (gardenbox1) => {
+		openSeedSelector();
+		destroy(gardenbox1);
+		gardenbox1 = add([
+			pos(10, 50),
+			sprite("carrotplantedbox"),
+			scale(.25),
+			area(),
+			body({ isStatic: true}),
+			"carrotplantedbox"
+		])
+	
+	
 })
+
+//extra non kaboom stuff
+
+function openSeedSelector(){
+	var modal = document.getElementById("myModal");
+
+	var btn = document.getElementById("myBtn");
+
+	var span = document.getElementsByClassName("close")[0];
+
+	modal.style.display = "block";
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	if (event.target == modal) {
+		modal.style.display = "none";
+	}
+	}
+}
