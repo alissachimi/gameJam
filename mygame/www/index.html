@@ -68,26 +68,30 @@
 </head>
 <body>
 	<div class="canvasparent">
-		<script src="main.js"></script>
-	</div>
-	<div id="myModal" class="modal">
+		
+		<div id="myModal" class="modal">
 
-		<!-- Modal content -->
-		<div class="modal-content">
-		  <span class="close">&times;</span>
-		  <p>Which seed would you like to plant here?</p>
+			<!-- Modal content -->
+			<div class="modal-content">
+			  <span class="close">&times;</span>
+			  <p>Which seed would you like to plant here?</p>
+			  
+			  <div style="display:flex; text-align: center; justify-content: center;">
+				
+				<button class="fruitButton" id="cornButton"><img width="75px" src="sprites/corn.png"></button>
+				<button class="fruitButton" id="pumpkinButton"><img width="75px" src="sprites/pumpkin.png"></button>
+				<button class="fruitButton" id="tomatoButton"><img width="75px" src="sprites/tomato.png"></button>
+				<button class="fruitButton" id="carrotButton"><img width="75px" src="sprites/carrot.png"></button>
+				<button class="fruitButton" id="strawberryButton"><img width="75px" src="sprites/strawberry.png"></button>
+			</div>
+			</div>
 		  
-		  <div style="display:flex; text-align: center; justify-content: center;">
-			
-			<button class="fruitButton"><img width="75px" src="sprites/corn.png"></button>
-			<button class="fruitButton"><img width="75px" src="sprites/pumpkin.png"></button>
-			<button class="fruitButton"><img width="75px" src="sprites/tomato.png"></button>
-			<button class="fruitButton"><img width="75px" src="sprites/carrot.png"></button>
-			<button class="fruitButton"><img width="75px" src="sprites/strawberry.png"></button>
-		</div>
-		</div>
-	  
-	  </div>
+		  </div>
+		  
+	</div>
+	<button id="growSeedsB">grow</button>
+
 	  
 </body>
+<script src="main.js"></script>
 </html>
