@@ -1,6 +1,10 @@
 import kaboom from "kaboom"
 
-const k = kaboom()
+const k = kaboom( 
+	{
+	width: 520,
+    height: 520,
+	})
 
 k.loadSprite("bean", "sprites/bean.png")
 k.loadSprite("gardenbox", "sprites/carrotgrownbox.png")
@@ -9,15 +13,13 @@ const player = k.add([
 	k.pos(120, 80),
 	k.sprite("bean"),
 	k.area(),
-	{ value: 20 }
 ])
 
-k.add([
+const gardenbox = k.add([
 	k.pos(320, 80),
 	k.sprite("gardenbox"),
 	k.scale(.5),
 	k.area(),
-	{ value: 20 }
 ])
 
 k.onMouseMove(() => {
@@ -28,10 +30,8 @@ k.onMouseMove(() => {
 
 })
 
-k.onCollide("bean", "gardenbox", (bean, gardenbox) => {
-	const beanValue = bean.value;
-	const gardenboxValue = gardenbox.value;
-	console.log(`Collision detected! Bean value: ${beanValue}, Gardenbox value: ${gardenboxValue}`);
+k.onCollide("bean", "gardenbox", () => {
+	console.log('Collision detected! Bean value, Gardenbox value');
 	
     k.addKaboom()
 })
