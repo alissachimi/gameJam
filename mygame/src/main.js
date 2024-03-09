@@ -243,3 +243,7 @@ function growSeed(){
 function probabilityOfSurvival(fruitType){
 	return 1;
 }
+
+function harvestProduce(){
+	
+}
