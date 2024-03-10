@@ -5,6 +5,10 @@ kaboom({
     height: 520,
 })
 
+
+var firstInitGarden=true
+var firstInitNewspaper=true
+
 //define gloabals
 var weatherOptions = [['hot', 'sunny'], ['hot', 'cloudy'], ['hot', 'rainy'], 
 						['mild', 'sunny'], ['mild', 'cloudy'], ['mild', 'rainy'], 
@@ -327,12 +331,21 @@ scene("garden", () => {
 		modal.style.display = "none";
 		}
 	}
+
+
+		document.getElementById("cornButton").addEventListener("click", function() {console.log('planted corn!!'); plantSeed('corn')}, false);
+		document.getElementById("pumpkinButton").addEventListener("click", function() { plantSeed('pumpkin')}, false);
+		document.getElementById("strawberryButton").addEventListener("click", function() { plantSeed('strawberry')}, false);
+		document.getElementById("carrotButton").addEventListener("click", function() { plantSeed('carrot')}, false);
+		document.getElementById("tomatoButton").addEventListener("click", function() { plantSeed('tomato')}, false);
+		
+		document.getElementById("growSeedsB").addEventListener("click", growSeed, false);
+		document.getElementById("closeDeadModal").addEventListener("click", function() { console.log('entered function'); document.getElementById("deadModal").style.display = "none"; goToFarmersMarket();}, false);
+
 	
-	document.getElementById("cornButton").addEventListener("click", function() {plantSeed('corn')}, false);
-	document.getElementById("pumpkinButton").addEventListener("click", function() { plantSeed('pumpkin')}, false);
-	document.getElementById("strawberryButton").addEventListener("click", function() { plantSeed('strawberry')}, false);
-	document.getElementById("carrotButton").addEventListener("click", function() { plantSeed('carrot')}, false);
-	document.getElementById("tomatoButton").addEventListener("click", function() { plantSeed('tomato')}, false);
+
+	document.getElementById("newWeekButton").addEventListener("click", function() { location.reload();}, false);
+	
 	
 	function plantSeed(fruitType) {
 		var modal = document.getElementById("myModal");
@@ -427,6 +440,7 @@ scene("garden", () => {
 	}
 
 	function getPlayerSeedOptions(){
+		console.log('getting player seed options')
 		var noSeeds = true;
 		const fruitTypes = ['corn', 'strawberry', 'carrot', 'tomato', 'pumpkin']
 		for(var i=0; i<5; i++){
@@ -452,7 +466,7 @@ scene("garden", () => {
 	var gardenBoxNames=["gardenbox1", "gardenbox2", "gardenbox3", "gardenbox4"]
 	var gardenBoxPositions = [[10, 50], [320, 50], [320, 340], [10, 340]]
 	
-	document.getElementById("growSeedsB").addEventListener("click", growSeed, false);
+	
 	function growSeed(){
 		currentStep = "harvest";
 		for(var i=0; i<4; i++){
@@ -557,11 +571,11 @@ scene("garden", () => {
 
 		var modal = document.getElementById("deadModal");
 		modal.style.display = "block";
-		document.getElementById("closeDeadModal").addEventListener("click", function() { document.getElementById("deadModal").style.display = "none";}, false);
+		//document.getElementById("closeDeadModal").addEventListener("click", function() { document.getElementById("deadModal").style.display = "none";}, false);
 
 	}
 
-	document.getElementById("closeDeadModal").addEventListener("click", function() { console.log('entered function'); document.getElementById("deadModal").style.display = "none"; goToFarmersMarket();}, false);
+	
 
 	function goToFarmersMarket(){
 		if(currentStep=="harvest" && gardenBoxContents[0]=="empty" && gardenBoxContents[1]=="empty" && gardenBoxContents[2]=="empty" && gardenBoxContents[3]=="empty"){
@@ -577,13 +591,13 @@ scene("garden", () => {
 	}
 
 	function travelToMarket(){
-		//document.getElementById('gardenCutscene').style.display="block";
-		//document.getElementById('gardenCutscene').play();
+		document.getElementById('marketCutscene').style.display="block";
+		document.getElementById('marketCutscene').play();
 		sellProduce();
-		document.getElementById('summaryModal').style.display='block'
 		
 		wait(10, () => {
-			document.getElementById('gardenCutscene').style.display="none";
+			document.getElementById('marketCutscene').style.display="none";
+			document.getElementById('summaryModal').style.display='block'
 		})
 	}
 
@@ -613,12 +627,6 @@ scene("garden", () => {
 	document.getElementById('newBalanceBox').innerHTML = 'New Bank Balance: ' + playerBank;
 	document.getElementById('profitBox').innerHTML = 'Total Profit: ' + profit;
 	profit=0;
-	}
-
-	document.getElementById("newWeekButton").addEventListener("click", function() { resetVars(); document.getElementById('summaryModal').style.display='none'; visitedNews=false; currentStep='plant'; go('newspaper');}, false);
-	function resetVars(){
-		randomIntForWeekW = randi(9);
-		randomIntForWeekS = randi(5);
 	}
 	
 }) 
@@ -775,16 +783,19 @@ scene("newspaper", () => {
 
 		go("garden")
 	})
+	if(firstInitNewspaper){
+		document.getElementById("cornSeedB").addEventListener("click", function() {buySeed('corn')}, false);
+		document.getElementById("pumpkinSeedB").addEventListener("click", function() { buySeed('pumpkin')}, false);
+		document.getElementById("strawberrySeedB").addEventListener("click", function() { buySeed('strawberry')}, false);
+		document.getElementById("carrotSeedB").addEventListener("click", function() { buySeed('carrot')}, false);
+		document.getElementById("tomatoSeedB").addEventListener("click", function() { buySeed('tomato')}, false);
+		firstInitNewspaper=false
+	}
 
-	document.getElementById("cornSeedB").addEventListener("click", function() {buySeed('corn')}, false);
-	document.getElementById("pumpkinSeedB").addEventListener("click", function() { buySeed('pumpkin')}, false);
-	document.getElementById("strawberrySeedB").addEventListener("click", function() { buySeed('strawberry')}, false);
-	document.getElementById("carrotSeedB").addEventListener("click", function() { buySeed('carrot')}, false);
-	document.getElementById("tomatoSeedB").addEventListener("click", function() { buySeed('tomato')}, false);
 	
 	function buySeed(fruitType){
 		updatePlayerBank(-seedCosts[fruitType]);
-		playerInventory[fruitType+'Seed']++
+		playerInventory[fruitType+'Seed']+=3
 		document.getElementById(fruitType+'SeedAmount').innerHTML=playerInventory[fruitType+'Seed'];
 		ifEnoughMoneyToBuy();
 		createGardenSign();
