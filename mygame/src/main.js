@@ -10,6 +10,8 @@ var weatherOptions = [['hot', 'sunny'], ['hot', 'cloudy'], ['hot', 'rainy'],
 						['mild', 'sunny'], ['mild', 'cloudy'], ['mild', 'rainy'], 
 						['cold', 'sunny'], ['cold', 'cloudy'], ['cold', 'rainy']];
 
+var visitedNews = false;
+
 var stories = [
 	{title: 'New Pizza Place!', content: 'Giuseppe is coming to Blossomville and opening a new restaurant. I am excited to try his world famous tomato pizza sauce.', pic:'sprites/tomato.png', fruit: 'tomato'},
 	{title: 'Happy Halloween!', content: 'Join us at the community center for the anual pumpkin carving contest!', pic:'sprites/pumpkin.png', fruit: 'pumpkin'},
@@ -597,6 +599,7 @@ scene("garden", () => {
 				profit += amountToSell*sellPrices[fruitTypes[i]];
 				amountSold[i].expired=playerInventory[fruitTypes[i]]-amountToSell;
 				playerInventory[fruitTypes[i]]=0;
+				document.getElementById(fruitTypes[i]+'Amount').innerHTML = 0;
 			} else {
 				amountSold[i].sold=0
 				amountSold[i].expired=0
@@ -609,9 +612,10 @@ scene("garden", () => {
 	updatePlayerBank(profit)
 	document.getElementById('newBalanceBox').innerHTML = 'New Bank Balance: ' + playerBank;
 	document.getElementById('profitBox').innerHTML = 'Total Profit: ' + profit;
+	profit=0;
 	}
 
-	document.getElementById("newWeekButton").addEventListener("click", function() { resetVars(); document.getElementById('summaryModal').style.display='none'; go('newspaper')}, false);
+	document.getElementById("newWeekButton").addEventListener("click", function() { resetVars(); document.getElementById('summaryModal').style.display='none'; visitedNews=false; currentStep='plant'; go('newspaper');}, false);
 	function resetVars(){
 		randomIntForWeekW = randi(9);
 		randomIntForWeekS = randi(5);
@@ -625,8 +629,6 @@ scene("newspaper", () => {
 	loadSprite("seedsStand", "sprites/seedStand.png")
 	loadSprite("seeds", "sprites/corngrownbox.png")
 	loadSprite("gardenSign", "sprites/gardenSign.png")
-
-	var visitedNews = false;
 
 	loadSprite('bean', 'sprites/spritesheet.png', {
 		sliceX: 10,
@@ -805,6 +807,9 @@ scene("newspaper", () => {
 			if(playerBank<seedCosts[fruitTypes[i]]){
 				document.getElementById(fruitTypes[i]+'SeedB').disabled=true;
 				document.getElementById(fruitTypes[i]+'SeedB').style.backgroundColor='#d3d3d3';
+			} else {
+				document.getElementById(fruitTypes[i]+'SeedB').disabled=false;
+				document.getElementById(fruitTypes[i]+'SeedB').style.backgroundColor='white';
 			}
 		}
 	}
