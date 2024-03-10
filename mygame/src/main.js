@@ -389,7 +389,7 @@ scene("garden", () => {
 		}
 	
 		modal.style.display = "none";
-		playerInventory[fruitType+'Seed']=playerInventory[fruitType+'Seed']-1;
+		playerInventory[fruitType+'Seed']--;
 		document.getElementById(fruitType+'SeedAmount').innerHTML=playerInventory[fruitType+'Seed'];
 
 		if(gardenBoxStatus[0]=="planted" && gardenBoxStatus[1]=="planted" && gardenBoxStatus[2]=="planted" && gardenBoxStatus[3]=="planted"){
