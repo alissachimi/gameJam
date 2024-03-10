@@ -430,10 +430,21 @@ scene("garden", () => {
 
 scene("newspaper", () => {
 	loadSprite("background", "sprites/gardenbackground.png");
-	loadSprite("bean", "sprites/bean.png");	
-	loadSprite("newspaperStand", "sprites/strawberrygrownbox.png")
+	loadSprite("newspaperStand", "sprites/newspaperStand.png")
 	loadSprite("seedsStand", "sprites/corngrownbox.png")
 	loadSprite("seeds", "sprites/corngrownbox.png")
+
+	loadSprite('bean', 'sprites/spritesheet.png', {
+		sliceX: 10,
+		sliceY: 1,
+		anims: {
+			runRight: { from: 8, to: 9 },
+			runLeft: { from: 6, to: 7 },
+			runDown: { from: 4, to: 5 },
+			runUp: { from: 1, to: 2 },
+			idle:3
+		}
+	})
 
 	// Create a background entity
 	const background = add([
@@ -442,17 +453,10 @@ scene("newspaper", () => {
 		scale(.52), // Adjust the scale if needed
 		]);
 
-	const bean = add([
-		sprite("bean"),
-		pos(225, 225),
-		area(),
-		body(),
-	]);
-
 	var newspaperStand = add([
-		pos(10, 50),
+		pos(20, 40),
 		sprite("newspaperStand"),
-		scale(.25),
+		scale(.2),
 		area(),
 		body({ isStatic: true}),
 		"newspaperStand"
@@ -467,26 +471,101 @@ scene("newspaper", () => {
 		"seedsStand"
 	])
 
-	const SPEED = 300;
+	const bean = add([
+		sprite("bean", {
+			animSpeed: 1,
+			frame:0
+		}),
+		pos(225, 225),
+		area(),
+		body(),
+		scale(.3),
+		"bean"
+	])
+
+	const SPEED = 70;
 	
 	/******** MOVEMENT  ********/
+
+	let myInterval;
+    const intervalTime=300
+
+    function animateR() {
+        clearInterval(myInterval)
+    	myInterval = setInterval(() => {
+        bean.play("runRight");
+    }, intervalTime);
+    }
+
+    function animateL() {
+        clearInterval(myInterval)
+        myInterval = setInterval(() => {
+            bean.play("runLeft");
+        }, intervalTime);
+        }
+
+    function animateD() {
+            clearInterval(myInterval)
+            myInterval = setInterval(() => {
+                bean.play("runDown");
+            }, intervalTime);
+        }
+
+    function animateU() {
+            clearInterval(myInterval)
+            myInterval = setInterval(() => {
+				bean.play("runUp");
+            }, intervalTime);
+        }
 	
+	onKeyPress("left", () => {
+		animateL()
+	})
+
 	onKeyDown("left", () => {
 		bean.move(-SPEED, 0)
 	})
 	
+	onKeyPress("right", () => {
+		animateR()		
+	})
+
 	onKeyDown("right", () => {
 		bean.move(SPEED, 0)
 	})
-	
+
+	onKeyPress("up", () => {
+		animateU()		
+	})
+
 	onKeyDown("up", () => {
 		bean.move(0, -SPEED)
 	})
 	
-	onKeyDown("down", () => {
-		bean.move(0, SPEED)	
+	onKeyPress("down", () => {
+		animateD()	
 	})
 
+	onKeyDown("down", () => {
+		bean.move(0, SPEED)
+	})
+
+	onKeyRelease("right",()=>{
+        clearInterval(myInterval)
+    })
+
+    onKeyRelease("left",()=>{
+        clearInterval(myInterval)
+    })
+
+    onKeyRelease("up",()=>{
+        clearInterval(myInterval)
+    })
+
+    onKeyRelease("down",()=>{
+        clearInterval(myInterval)
+    })
+	
 	bean.onCollide("seedsStand", () => {
 		openSeedShop();
 	})
@@ -542,4 +621,4 @@ scene("newspaper", () => {
 })
 
 updatePlayerBank(0);
-go("garden")
+go("newspaper")
