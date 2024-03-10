@@ -16,7 +16,7 @@
 			background-size: cover;
 		}
 
-		canvas, video{
+		canvas, video, .game{
 			border-radius: 3%;
 			margin: 0;
 			position: absolute;
@@ -57,7 +57,6 @@
 		color: floralwhite;
 		font-family: "Pixelify Sans", sans-serif;
 		}
-
 		.newspaper-content {
 		margin: auto;
 		padding: 10px;
@@ -92,22 +91,32 @@
 			cursor: pointer;
 		}
 
-		#inventory {
+		.inventory {
 			background-color: #f2bc79;
-			margin-top: 20px;
 			margin-left: 20px;
-			color: floralwhite
+			color: floralwhite;
+		}
+
+		#seedInventory {
+			position: static;
+			top: 0;
+		}
+
+		#fruitInventory {
+			position: static;
+			top: 0;
 		}
 
 		td {
 			border: 2px solid white;
-			font-family: "Pixelify Sans", sans-serif;
+			font-family: "Monospace: Courier New";
 		}
 
 		#coinbox {
-			position: absolute;
+			position: static;
 			top: 110px;
 			background-color: #f2bc79;
+			margin-top: 20px;
 			margin-left: 20px;
 			border: 2px solid white;
 			color: floralwhite;
@@ -139,6 +148,8 @@
 		<h1>GoGo Garden</h1>
 	</div>
 	<div class="canvasparent">
+
+		<div class="game" width="520" height="520"></div>
 
 		<video width="520" height="520" id="gardenCutscene" style="display: none; z-index: 10000;">
 			<source src="sprites/gamejam_3.mp4" type="video/mp4">
@@ -172,7 +183,7 @@
 		  </div>
 		
 		<div>
-			<table id="inventory">
+			<table class="inventory" id="fruitInventory">
 			<tr id="fruitImages"> 
 				<td id="cornImage"><img width="30px" src="sprites/corn.png"></td>
 				<td id="pumpkinImage"><img width="30px" src="sprites/pumpkin.png"></td>
@@ -199,9 +210,9 @@
 		</tr>
 	</table>
 	<br><br><br>
-	<p style="color:#000; text-align: left;">seed inventory</p>
+	<p style="color:#000; text-align: left;"></p>
 	<div>
-		<table id="inventory">
+		<table class="inventory" id="seedInventory">
 		<tr id="fruitImages"> 
 			<td id="cornImage"><img width="30px" src="sprites/cornSeed.png"></td>
 			<td id="pumpkinImage"><img width="30px" src="sprites/pumpkinSeed.png"></td>
@@ -240,16 +251,16 @@
 			<button style="border: 1px solid #bf6c5a;" class="fruitButton" id="strawberrySeedB"><img id="strawberrySeedPic" style="border: 1px solid #bf6c5a;" width="75px" src="sprites/strawberrySeed.png">$5</button>
 		</div>
 		</div>
-		</div>
+	</div>
 
 		<div id="newspaperModal" class="modal">
 			<img style="position: relative; top: 0; right: -150px; margin-bottom: -3px;" width="100px" src="sprites/newsGuy.png">
 					<!-- Modal content -->
 			<div class="newspaper-content">
 			<span class="close">&times;</span>
-			<h1 style="font-size: x-large;">The Blossomville Times</h1>
+			<h1 style="font-size: x-large; text-align: center;">The Blossomville Times</h1>
 			<hr>
-			<div style="display:grid; grid-template-columns: 50% 50%; text-align: center;
+			<div style="display:grid; grid-template-columns: 50% 50%; text-align: justify;
 			justify-content: center; background-color: floralwhite;
 			border-radius: 2px;">
 			<img id="newsPic" class="grid-item" style="border: 1px solid rgb(104, 102, 100); justify-self: center; width:50%"  src="sprites/tomato.png">
@@ -260,7 +271,7 @@
 				
 			</div>
 			<hr><hr>
-			<div style="display:grid; grid-template-columns: 50% 50%; text-align: center;
+			<div style="display:grid; grid-template-columns: 50% 50%; text-align: justify;
 			justify-content: center; background-color: floralwhite;
 			border-radius: 2px;">
 				<div class="grid-item" id="weatherForcast">
@@ -268,11 +279,80 @@
 				<p class="weatherP" id="tempP" style="font-size: large; margin: 0; font-family: 'Courier New', Courier, monospace;"> hot </p>
 				<p class="weatherP" id="conditionsP" style="font-size: large; margin: 0; font-family: 'Courier New', Courier, monospace;"> sunny</p>
 				</div>
-				<div class="grid-item"><hr><br><hr><br><hr><br><hr></div>
+				<div class="grid-item">
+					<h4 style="margin: 2px;">Grandma Appleton's <br>Guide to Gardening</h4>
+					<p style="font-size: x-small; margin-top: 2px; margin: 0; font-family: 'Courier New', Courier, monospace;">Hi readers! Here are my tips to help your fruit grow!</p>
+					<p style="font-size: x-small; margin: 0; font-family: 'Courier New', Courier, monospace;">Corn does not like hot temperatures.</p>
+					<p style="font-size: x-small; margin: 0; font-family: 'Courier New', Courier, monospace;">Carrots do not like the sun.</p>
+					<p style="font-size: x-small; margin: 0; font-family: 'Courier New', Courier, monospace;">Tomatoes either need it to be sunny or rainy.</p>
+					<p style="font-size: x-small; margin: 0; font-family: 'Courier New', Courier, monospace;">Strawberries will not survive in cold weather.</p>
+					<p style="font-size: x-small; margin: 0; font-family: 'Courier New', Courier, monospace;">Pumpkins are easily overwatered.</p>
+
+				</div>
 			</div>
 			<hr><hr><hr><hr>
 			</div>
 			
+		</div>
+	
+		<div id="deadModal" class="modal">
+			
+			<div class="modal-content">
+			  <!--<span id="deadModalClose" class="close">&times;</span>-->
+			  <p id="seedMessage">Your produce has died due to poor weather conditions for </p>
+			  <button id="closeDeadModal">aww shucks</button>
+			</div>
+		</div>
+
+		
+	<div id="summaryModal" class="modal">
+			
+		<!-- Modal content -->
+		<div class="newspaper-content">
+		  <p id="seedMessage">Farmer's Market Summary</p>
+		  
+		  
+		  <div style="display:flex; text-align: center;
+		  justify-content: center; background-color: floralwhite;
+		  border-radius: 2px;">
+			<table>
+				<tr>
+					<td>Fruit</td>
+					<td>Sold</td>
+					<td>Expired</td>
+				</tr>
+				<tr>
+					<td>Corn</td>
+					<td id="cornSoldRow">Sold</td>
+					<td id="cornExpiredRow">Expired</td>
+				</tr>
+				<tr>
+					<td>Pumpkin</td>
+					<td id="pumpkinSoldRow">Sold</td>
+					<td id="pumpkinExpiredRow">Expired</td>
+				</tr>
+				<tr>
+					<td>Tomato</td>
+					<td id="tomatoSoldRow">Sold</td>
+					<td id="tomatoExpiredRow">Expired</td>
+				</tr>
+				<tr>
+					<td>Carrot</td>
+					<td id="carrotSoldRow">Sold</td>
+					<td id="carrotExpiredRow">Expired</td>
+				</tr>
+				<tr>
+					<td>Strawberry</td>
+					<td id="strawberrySoldRow">Sold</td>
+					<td id="strawberryExpiredRow">Expired</td>
+				</tr>
+			</table>
+			
+		</div>
+			<br>
+			<h3 id="profitBox">Total Profit: </h3>
+			<h3 id="newBalanceBox">New Bank Balance: </h3>
+			<button id="newWeekButton">Continue To Next Week</button>
 		</div>
 	</div>
 	  
