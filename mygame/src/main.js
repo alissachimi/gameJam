@@ -73,7 +73,7 @@ scene("garden", () => {
 	loadSprite("tomatodeadbox", "sprites/tomatodeadbox.png")
 	
 	
-	var bean = add([
+	const bean = add([
 		sprite("playerFront"),
 		pos(225, 225),
 		area(),
@@ -119,44 +119,23 @@ scene("garden", () => {
 	
 	/******** MOVEMENT  ********/
 	
-	onKeyDown("left", () => {
-		bean = add([
-			sprite("playerLeft"),
-			area(),
-			body(),
-			scale(.10),
-		])
+	onKeyPress("left", () => {
 		bean.move(-SPEED, 0)
 	})
 	
-	onKeyDown("right", () => {
-		bean = add([
-			sprite("playerRight"),
-			area(),
-			body(),
-			scale(.10),
-		])
+	onKeyPress("right", () => {
 		bean.move(SPEED, 0)
 		
 	})
 	
+	onKeyPress("up", () => {
+	})
+
 	onKeyDown("up", () => {
-		bean = add([
-			sprite("playerBack"),
-			area(),
-			body(),
-			scale(.10),
-		])
 		bean.move(0, -SPEED)
 	})
 	
-	onKeyDown("down", () => {
-		bean = add([
-			sprite("playerFront"),
-			area(),
-			body(),
-			scale(.10),
-		])
+	onKeyPress("down", () => {
 		bean.move(0, SPEED)	
 	})
 	
