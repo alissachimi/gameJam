@@ -540,6 +540,8 @@ scene("garden", () => {
 
 		var modal = document.getElementById("deadModal");
 		modal.style.display = "block";
+		document.getElementById("closeDeadModal").addEventListener("click", function() { document.getElementById("deadModal").style.display = "none";}, false);
+
 	}
 
 	document.getElementById("closeDeadModal").addEventListener("click", function() { console.log('entered function'); document.getElementById("deadModal").style.display = "none"; goToFarmersMarket();}, false);
