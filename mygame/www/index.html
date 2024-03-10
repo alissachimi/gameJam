@@ -41,6 +41,10 @@
 		background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 		}
 
+		#newspaperModal{
+			padding-top: 5px;
+		}
+
 		/* Modal Content */
 		.modal-content {
 		margin: auto;
@@ -137,7 +141,7 @@
 	<div class="canvasparent">
 
 		<video width="520" height="520" id="gardenCutscene" style="display: none; z-index: 10000;">
-			<source src="sprites/gamejam_2.mp4" type="video/mp4">
+			<source src="sprites/gamejam_3.mp4" type="video/mp4">
 			Your browser does not support the video tag.
 		</video>
 		
@@ -146,6 +150,7 @@
 			<!-- Modal content -->
 			<div class="modal-content">
 			  <span class="close">&times;</span>
+			  
 			  <p>Which seed would you like to plant here?</p>
 			  
 			  <div style="display:flex; text-align: center;
@@ -212,11 +217,13 @@
 	<button id="growSeedsB">grow</button>
 
 	<div id="buySeedsModal" class="modal">
+		<img style="position: relative; top: 0; right: 0; margin-bottom: -3px;" width="100px" src="sprites/seedGirl.png">
 			
 		<!-- Modal content -->
 		<div class="modal-content">
 		  <span class="close">&times;</span>
 		  <p>Which seeds would you like to buy?</p>
+		  
 		  
 		  <div style="display:flex; text-align: center;
 		  justify-content: center; background-color: floralwhite;
@@ -232,6 +239,7 @@
 		</div>
 
 		<div id="newspaperModal" class="modal">
+			<img style="position: relative; top: 0; right: -150px; margin-bottom: -3px;" width="100px" src="sprites/newsGuy.png">
 					<!-- Modal content -->
 			<div class="newspaper-content">
 			<span class="close">&times;</span>
@@ -240,10 +248,10 @@
 			<div style="display:grid; grid-template-columns: 50% 50%; text-align: center;
 			justify-content: center; background-color: floralwhite;
 			border-radius: 2px;">
-			<img id="newsPic" class="grid-item" style="border: 1px solid rgb(104, 102, 100); justify-self: center;"  src="sprites/tomato.png">
+			<img id="newsPic" class="grid-item" style="border: 1px solid rgb(104, 102, 100); justify-self: center; width:50%"  src="sprites/tomato.png">
 			<div class="grid-item">
 				<h4 id="newsTitle" style="margin-top: 0; margin-bottom: 0;">New Pizza Place!</h4>
-				<p id="newsParagraph" style="font-family: 'Courier New', Courier, monospace;">Giuseppe is coming to Blossomville and opening a new restaurant. I am excited to try his world famous tomato pizza sauce.</p>
+				<p id="newsParagraph" style="font-size: small; font-family: 'Courier New', Courier, monospace;">Giuseppe is coming to Blossomville and opening a new restaurant. I am excited to try his world famous tomato pizza sauce.</p>
 			</div>
 				
 			</div>

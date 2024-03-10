@@ -465,6 +465,8 @@ scene("newspaper", () => {
 	loadSprite("seeds", "sprites/corngrownbox.png")
 	loadSprite("gardenSign", "sprites/gardenSign.png")
 
+	var visitedNews = false;
+
 	loadSprite('bean', 'sprites/spritesheet.png', {
 		sliceX: 10,
 		sliceY: 1,
@@ -502,14 +504,6 @@ scene("newspaper", () => {
 		"seedsStand"
 	])
 
-	const gardenSign = add([
-		pos(270, 415),
-		sprite("gardenSign"),
-		scale(.15),
-		area(),
-		body({ isStatic: true}),
-		"gardenSign"
-	])
 
 	const bean = add([
 		sprite("bean", {
@@ -629,6 +623,7 @@ scene("newspaper", () => {
 		playerInventory[fruitType+'Seed']++
 		document.getElementById(fruitType+'SeedAmount').innerHTML=playerInventory[fruitType+'Seed'];
 		ifEnoughMoneyToBuy();
+		createGardenSign();
 	}
 
 	function openSeedShop(){
@@ -653,12 +648,34 @@ scene("newspaper", () => {
 	}
 
 	function openNewspaper(){
+		visitedNews = true;
+		createGardenSign();
 		document.getElementById("newspaperModal").style.display = "block";
 		var modal = document.getElementById("newspaperModal");
 		var span = document.getElementsByClassName("close")[2];
 		// When the user clicks on <span> (x), close the modal
 		span.onclick = function() {
 		modal.style.display = "none";
+		}
+	}
+
+	function createGardenSign(){
+		var hasSeeds = false;
+		const fruitTypes = ['corn', 'strawberry', 'carrot', 'tomato', 'pumpkin'];
+		for(var i=0; i<5; i++){
+			if(playerInventory[fruitTypes[i]+'Seed']>0){
+				hasSeeds = true;
+			}
+		}
+		if(visitedNews && hasSeeds){
+			const gardenSign = add([
+				pos(270, 415),
+				sprite("gardenSign"),
+				scale(.15),
+				area(),
+				body({ isStatic: true}),
+				"gardenSign"
+			])
 		}
 	}
 	
