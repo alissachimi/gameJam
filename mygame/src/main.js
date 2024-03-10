@@ -90,6 +90,7 @@ scene("garden", () => {
 		}
 	})
 
+	loadSprite("marketSign", "sprites/marketSign.png")
 
 	loadSprite("playerFront", "sprites/playerfront.png")
 	loadSprite("playerBack", "sprites/playerback.png")
@@ -300,6 +301,10 @@ scene("garden", () => {
 		}
 		
 	})
+
+	bean.onCollide("marketSign", () => {
+		travelToMarket();
+	})
 	
 	//extra non kaboom stuff
 	
@@ -503,7 +508,7 @@ scene("garden", () => {
 		if(stories[randomIntForWeekS].fruit==fruitType){
 			return 1
 		} else {
-			return possibleProbs[randi(4)]
+			return possibleProbs[randi(3)]
 		}
 	}
 	
@@ -558,22 +563,28 @@ scene("garden", () => {
 
 	function goToFarmersMarket(){
 		if(currentStep=="harvest" && gardenBoxContents[0]=="empty" && gardenBoxContents[1]=="empty" && gardenBoxContents[2]=="empty" && gardenBoxContents[3]=="empty"){
-			//document.getElementById('gardenCutscene').style.display="block";
-			//document.getElementById('gardenCutscene').play();
-			sellProduce();
-			console.log('sold produce:')
-			for(var i=0; i<5; i++){
-				console.log(amountSold[i].fruit)
-				console.log('sold: '+amountSold[i].sold)
-				console.log('expired: '+amountSold[i].expired)
-			}
-			
-			wait(10, () => {
-				document.getElementById('gardenCutscene').style.display="none";
-				go("summary");
-			})
+			const marketSign = add([
+				pos(415, 230),
+				sprite("marketSign"),
+				scale(.15),
+				area(),
+				body({ isStatic: true}),
+				"marketSign"
+			])
 		}
 	}
+
+	function travelToMarket(){
+		//document.getElementById('gardenCutscene').style.display="block";
+		//document.getElementById('gardenCutscene').play();
+		sellProduce();
+		document.getElementById('summaryModal').style.display='block'
+		
+		wait(10, () => {
+			document.getElementById('gardenCutscene').style.display="none";
+		})
+	}
+
 
 	function sellProduce(){
 		const fruitTypes = ['corn', 'strawberry', 'carrot', 'tomato', 'pumpkin'];
@@ -591,9 +602,21 @@ scene("garden", () => {
 				amountSold[i].expired=0
 
 			}
+			document.getElementById(fruitTypes[i]+'SoldRow').innerHTML = amountSold[i].sold;
+			document.getElementById(fruitTypes[i]+'ExpiredRow').innerHTML = amountSold[i].expired;
+			
 	}
 	updatePlayerBank(profit)
+	document.getElementById('newBalanceBox').innerHTML = 'New Bank Balance: ' + playerBank;
+	document.getElementById('profitBox').innerHTML = 'Total Profit: ' + profit;
 	}
+
+	document.getElementById("newWeekButton").addEventListener("click", function() { resetVars(); document.getElementById('summaryModal').style.display='none'; go('newspaper')}, false);
+	function resetVars(){
+		randomIntForWeekW = randi(9);
+		randomIntForWeekS = randi(5);
+	}
+	
 }) 
 
 scene("newspaper", () => {

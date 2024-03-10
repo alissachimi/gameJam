@@ -57,7 +57,6 @@
 		color: floralwhite;
 		font-family: "Pixelify Sans", sans-serif;
 		}
-
 		.newspaper-content {
 		margin: auto;
 		padding: 10px;
@@ -288,6 +287,58 @@
 			  <button id="closeDeadModal">aww shucks</button>
 			</div>
 		</div>
+
+		
+	<div id="summaryModal" class="modal">
+			
+		<!-- Modal content -->
+		<div class="newspaper-content">
+		  <p id="seedMessage">Farmer's Market Summary</p>
+		  
+		  
+		  <div style="display:flex; text-align: center;
+		  justify-content: center; background-color: floralwhite;
+		  border-radius: 2px;">
+			<table>
+				<tr>
+					<td>Fruit</td>
+					<td>Sold</td>
+					<td>Expired</td>
+				</tr>
+				<tr>
+					<td>Corn</td>
+					<td id="cornSoldRow">Sold</td>
+					<td id="cornExpiredRow">Expired</td>
+				</tr>
+				<tr>
+					<td>Pumpkin</td>
+					<td id="pumpkinSoldRow">Sold</td>
+					<td id="pumpkinExpiredRow">Expired</td>
+				</tr>
+				<tr>
+					<td>Tomato</td>
+					<td id="tomatoSoldRow">Sold</td>
+					<td id="tomatoExpiredRow">Expired</td>
+				</tr>
+				<tr>
+					<td>Carrot</td>
+					<td id="carrotSoldRow">Sold</td>
+					<td id="carrotExpiredRow">Expired</td>
+				</tr>
+				<tr>
+					<td>Strawberry</td>
+					<td id="strawberrySoldRow">Sold</td>
+					<td id="strawberryExpiredRow">Expired</td>
+				</tr>
+			</table>
+			
+		</div>
+			<br>
+			<h3 id="profitBox">Total Profit: </h3>
+			<h3 id="newBalanceBox">New Bank Balance: </h3>
+			<button id="newWeekButton">Continue To Next Week</button>
+		</div>
+	</div>
 	  
 </body>
 <script src="main.js"></script>
