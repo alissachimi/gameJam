@@ -136,7 +136,7 @@ scene("garden", () => {
 	/******** MOVEMENT  ********/
 
 	let myInterval;
-    const intervalTime=300
+    const intervalTime=100
 
     function animateR() {
         clearInterval(myInterval)
