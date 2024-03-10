@@ -11,14 +11,22 @@ var weatherOptions = [['hot', 'sunny'], ['hot', 'cloudy'], ['hot', 'rainy'],
 						['cold', 'sunny'], ['cold', 'cloudy'], ['cold', 'rainy']];
 
 var stories = [
-	{title: 'New Pizza Place!', content: 'Giuseppe is coming to Blossomville and opening a new restaurant. I am excited to try his world famous tomato pizza sauce.', pic:'sprites/tomato.png'},
-	{title: 'Happy Halloween!', content: 'Join us at the community center for the anual pumpkin carving contest!', pic:'sprites/pumpkin.png'},
-	{title: 'New Bunnies at the Zoo', content: 'Come meet the new litter of bunnies at the zoo. Pay $5 to feed them some carrots.', pic:'sprites/carrot.png'},
-	{title: 'Join us for a BBQ!', content: 'There will be a BBQ hosted in town sqaure on Friday. Hamburgers, corn bread, and corn-on-th-cob will be served.', pic:'sprites/corn.png'},
-	{title: 'Jam Factory to Be Built', content: 'The Jam Factory will be finished in 3 days! Come by for a free sample of strawberry jam.', pic:'sprites/strawberry.png'}
+	{title: 'New Pizza Place!', content: 'Giuseppe is coming to Blossomville and opening a new restaurant. I am excited to try his world famous tomato pizza sauce.', pic:'sprites/tomato.png', fruit: 'tomato'},
+	{title: 'Happy Halloween!', content: 'Join us at the community center for the anual pumpkin carving contest!', pic:'sprites/pumpkin.png', fruit: 'pumpkin'},
+	{title: 'New Bunnies at the Zoo', content: 'Come meet the new litter of bunnies at the zoo. Pay $5 to feed them some carrots.', pic:'sprites/carrot.png', fruit: 'carrot'},
+	{title: 'Join us for a BBQ!', content: 'There will be a BBQ hosted in town sqaure on Friday. Hamburgers, corn bread, and corn-on-th-cob will be served.', pic:'sprites/corn.png', fruit: 'corn'},
+	{title: 'Jam Factory to Be Built', content: 'The Jam Factory will be finished in 3 days! Come by for a free sample of strawberry jam.', pic:'sprites/strawberry.png', fruit: 'strawberry'}
 ]
 var randomIntForWeekW = randi(9);
 var randomIntForWeekS = randi(5);
+var amountSold = [
+	{fruit:'corn', sold:0, expired:0},
+	{fruit:'strawberry', sold:0, expired:0},
+	{fruit:'carrot', sold:0, expired:0},
+	{fruit:'tomato', sold:0, expired:0},
+	{fruit:'pumpkin', sold:0, expired:0}
+
+]
 
 var gardenBoxContents=["empty", "empty", "empty", "empty"];
 var gardenBoxStatus=["empty", "empty", "empty", "empty"];
@@ -479,6 +487,15 @@ scene("garden", () => {
 		}
 		return 1;
 	}
+
+	function probabilityOfSell(fruitType){
+		var possibleProbs = [.2, .4, .6, .8]
+		if(stories[randomIntForWeekS].fruit==fruitType){
+			return 1
+		} else {
+			return possibleProbs[randi(4)]
+		}
+	}
 	
 	
 	function harvestProduce(index){
@@ -529,13 +546,35 @@ scene("garden", () => {
 
 	function goToFarmersMarket(){
 		if(currentStep=="harvest" && gardenBoxContents[0]=="empty" && gardenBoxContents[1]=="empty" && gardenBoxContents[2]=="empty" && gardenBoxContents[3]=="empty"){
-			document.getElementById('gardenCutscene').style.display="block";
-			document.getElementById('gardenCutscene').play();
+			//document.getElementById('gardenCutscene').style.display="block";
+			//document.getElementById('gardenCutscene').play();
+			sellProduce();
+			console.log('sold produce:')
+			for(var i=0; i<5; i++){
+				console.log(amountSold[i].fruit)
+				console.log('sold: '+amountSold[i].sold)
+				console.log('expired: '+amountSold[i].expired)
+			}
+			
 			wait(10, () => {
 				document.getElementById('gardenCutscene').style.display="none";
 				go("summary");
 			})
 		}
+	}
+
+	function sellProduce(){
+		const fruitTypes = ['corn', 'strawberry', 'carrot', 'tomato', 'pumpkin']
+		var amountToSell = 0
+		for(var i=0; i<5; i++){
+			if(playerInventory[fruitTypes[i]]>=0){
+				amountToSell = probabilityOfSell(fruitTypes[i])*playerInventory[fruitTypes];
+				console.log('amount to sell in func: ' + amountToSell)
+				amountSold[i].sold=amountToSell;
+				amountSold[i].expired=playerInventory[fruitTypes[i]]-amountToSell;
+				playerInventory[fruitTypes[i]]=0;
+			}
+	}
 	}
 }) 
 
@@ -773,6 +812,10 @@ scene("newspaper", () => {
 		}
 	}
 	
+})
+
+scene("summary", () => {
+
 })
 
 updatePlayerBank(0);
