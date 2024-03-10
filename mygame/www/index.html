@@ -16,7 +16,7 @@
 			background-size: cover;
 		}
 
-		canvas, video{
+		canvas, video, .game{
 			border-radius: 3%;
 			margin: 0;
 			position: absolute;
@@ -92,22 +92,32 @@
 			cursor: pointer;
 		}
 
-		#inventory {
+		.inventory {
 			background-color: #f2bc79;
-			margin-top: 20px;
 			margin-left: 20px;
-			color: floralwhite
+			color: floralwhite;
+		}
+
+		#seedInventory {
+			position: static;
+			top: 0;
+		}
+
+		#fruitInventory {
+			position: static;
+			top: 0;
 		}
 
 		td {
 			border: 2px solid white;
-			font-family: "Pixelify Sans", sans-serif;
+			font-family: "Monospace: Courier New";
 		}
 
 		#coinbox {
-			position: absolute;
+			position: static;
 			top: 110px;
 			background-color: #f2bc79;
+			margin-top: 20px;
 			margin-left: 20px;
 			border: 2px solid white;
 			color: floralwhite;
@@ -140,6 +150,8 @@
 	</div>
 	<div class="canvasparent">
 
+		<div class="game" width="520" height="520"></div>
+
 		<video width="520" height="520" id="gardenCutscene" style="display: none; z-index: 10000;">
 			<source src="sprites/gamejam_3.mp4" type="video/mp4">
 			Your browser does not support the video tag.
@@ -168,7 +180,7 @@
 		  </div>
 		
 		<div>
-			<table id="inventory">
+			<table class="inventory" id="fruitInventory">
 			<tr id="fruitImages"> 
 				<td id="cornImage"><img width="30px" src="sprites/corn.png"></td>
 				<td id="pumpkinImage"><img width="30px" src="sprites/pumpkin.png"></td>
@@ -195,9 +207,9 @@
 		</tr>
 	</table>
 	<br><br><br>
-	<p style="color:#000; text-align: left;">seed inventory</p>
+	<p style="color:#000; text-align: left;"></p>
 	<div>
-		<table id="inventory">
+		<table class="inventory" id="seedInventory">
 		<tr id="fruitImages"> 
 			<td id="cornImage"><img width="30px" src="sprites/cornSeed.png"></td>
 			<td id="pumpkinImage"><img width="30px" src="sprites/pumpkinSeed.png"></td>
