@@ -36,14 +36,6 @@ const bean = add([
 	body(),
 ])
 
-var playerInventory={
-	'carrot':0,
-	'corn':0,
-	'strawberry':0,
-	'pumpkin': 0,
-	'tomato': 0
-};
-
 var gardenBoxContents=["empty", "empty", "empty", "empty"]
 var gardenBoxStatus=["empty", "empty", "empty", "empty"]
 
@@ -100,6 +92,8 @@ onKeyDown("down", () => {
 	bean.move(0, SPEED)	
 })
 
+
+/****** COLLISION ******/
 var collidedBox = ""
 bean.onCollide("gardenbox1", (gardenbox1) => {
 	collidedBox = "gardenbox1"
@@ -251,7 +245,7 @@ var gardenBoxPositions = [[10, 50], [320, 50], [320, 340], [10, 340]]
 document.getElementById("growSeedsB").addEventListener("click", growSeed, false);
 function growSeed(){
 	for(var i=0; i<4; i++){
-		console.log(gardenBoxContents)
+		debug.log(gardenBoxContents)
 		if(gardenBoxContents[i]!="empty"){
 			destroy(gardenBoxes[i]);
 			if(rand(0,1)<probabilityOfSurvival(gardenBoxContents[i])){
@@ -284,6 +278,16 @@ function probabilityOfSurvival(fruitType){
 	return 1;
 }
 
+
+
+var playerInventory={
+	'carrot':0,
+	'corn':0,
+	'strawberry':0,
+	'pumpkin': 0,
+	'tomato': 0
+};
+
 function harvestProduce(index){
 	destroy(gardenBoxes[index]);
 
@@ -298,6 +302,13 @@ function harvestProduce(index){
 
 	//increase inventory of the harvested item
 	playerInventory[gardenBoxContents[index]]+=5;
+
+	//display new crop amount to user
+	document.getElementById(gardenBoxContents[index]+"Amount").innerText=playerInventory[gardenBoxContents[index]];
+
+	// empty the garden box
 	gardenBoxStatus[index] = "empty";
 	gardenBoxContents[index] = "empty"
+
+	
 }
