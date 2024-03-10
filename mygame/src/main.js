@@ -367,7 +367,7 @@ scene("garden", () => {
 		}
 	
 		modal.style.display = "none";
-		playerInventory[fruitType+'Seed']--;
+		playerInventory[fruitType+'Seed']=playerInventory[fruitType+'Seed']-1;
 		document.getElementById(fruitType+'SeedAmount').innerHTML=playerInventory[fruitType+'Seed'];
 
 		if(gardenBoxStatus[0]=="planted" && gardenBoxStatus[1]=="planted" && gardenBoxStatus[2]=="planted" && gardenBoxStatus[3]=="planted"){
@@ -393,7 +393,7 @@ scene("garden", () => {
 				animSpeed: 1,
 				frame:4
 			}),
-			pos(225, 10),
+			pos(225, 225),
 			area(),
 			body(),
 			scale(.3),
@@ -502,7 +502,7 @@ scene("garden", () => {
 		// empty the garden box
 		gardenBoxStatus[index] = "empty";
 		gardenBoxContents[index] = "empty"
-	
+		goToFarmersMarket()
 		
 	}
 
@@ -518,12 +518,25 @@ scene("garden", () => {
 			gardenBoxNames[index]
 		])
 
+		gardenBoxStatus[index] = "empty";
+		gardenBoxContents[index] = "empty";
+
 		var modal = document.getElementById("deadModal");
 		modal.style.display = "block";
 	}
 
-	document.getElementById("closeDeadModal").addEventListener("click", function() { console.log('entered function'); document.getElementById("deadModal").style.display = "none";}, false);
+	document.getElementById("closeDeadModal").addEventListener("click", function() { console.log('entered function'); document.getElementById("deadModal").style.display = "none"; goToFarmersMarket();}, false);
 
+	function goToFarmersMarket(){
+		if(currentStep=="harvest" && gardenBoxContents[0]=="empty" && gardenBoxContents[1]=="empty" && gardenBoxContents[2]=="empty" && gardenBoxContents[3]=="empty"){
+			document.getElementById('gardenCutscene').style.display="block";
+			document.getElementById('gardenCutscene').play();
+			wait(10, () => {
+				document.getElementById('gardenCutscene').style.display="none";
+				go("summary");
+			})
+		}
+	}
 }) 
 
 scene("newspaper", () => {
