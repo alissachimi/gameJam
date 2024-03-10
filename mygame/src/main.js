@@ -48,6 +48,11 @@ scene("garden", () => {
 	]);
 	
 	loadSprite("bean", "sprites/bean.png")
+	loadSprite("playerFront", "sprites/playerfront.png")
+	loadSprite("playerBack", "sprites/playerback.png")
+	loadSprite("playerLeft", "sprites/playerleft.png")
+	loadSprite("playerRight", "sprites/playerright.png")
+
 	loadSprite("gardenbox", "sprites/gardenbox.png")
 	loadSprite("carrotplantedbox", "sprites/carrotplantedbox.png")
 	loadSprite("cornplantedbox", "sprites/cornplantedbox.png")
@@ -68,8 +73,8 @@ scene("garden", () => {
 	loadSprite("tomatodeadbox", "sprites/tomatodeadbox.png")
 	
 	
-	const bean = add([
-		sprite("bean"),
+	var bean = add([
+		sprite("playerFront"),
 		pos(225, 225),
 		area(),
 		body(),
@@ -114,18 +119,43 @@ scene("garden", () => {
 	/******** MOVEMENT  ********/
 	
 	onKeyDown("left", () => {
+		var bean = add([
+			sprite("playerLeft"),
+			pos(225, 225),
+			area(),
+			body(),
+		])
 		bean.move(-SPEED, 0)
 	})
 	
 	onKeyDown("right", () => {
+		var bean = add([
+			sprite("playerRight"),
+			pos(225, 225),
+			area(),
+			body(),
+		])
 		bean.move(SPEED, 0)
+		
 	})
 	
 	onKeyDown("up", () => {
+		var bean = add([
+			sprite("playerBack"),
+			pos(225, 225),
+			area(),
+			body(),
+		])
 		bean.move(0, -SPEED)
 	})
 	
 	onKeyDown("down", () => {
+		var bean = add([
+			sprite("playerFront"),
+			pos(225, 225),
+			area(),
+			body(),
+		])
 		bean.move(0, SPEED)	
 	})
 	
