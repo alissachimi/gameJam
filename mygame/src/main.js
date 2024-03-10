@@ -47,7 +47,19 @@ scene("garden", () => {
 	  scale(.52), // Adjust the scale if needed
 	]);
 	
-	loadSprite("bean", "sprites/bean.png")
+	loadSprite('bean', 'sprites/spritesheet.png', {
+		sliceX: 10,
+		sliceY: 1,
+		anims: {
+			runRight: { from: 8, to: 9 },
+			runLeft: { from: 6, to: 7 },
+			runDown: { from: 4, to: 5 },
+			runUp: { from: 1, to: 2 },
+			idle:3
+		}
+	})
+
+
 	loadSprite("playerFront", "sprites/playerfront.png")
 	loadSprite("playerBack", "sprites/playerback.png")
 	loadSprite("playerLeft", "sprites/playerLeft.png")
@@ -74,11 +86,15 @@ scene("garden", () => {
 	
 	
 	const bean = add([
-		sprite("playerFront"),
+		sprite("bean", {
+			animSpeed: 1,
+			frame:0
+		}),
 		pos(225, 225),
 		area(),
 		body(),
-		scale(.10),
+		scale(.3),
+		"bean"
 	])
 	
 
@@ -115,20 +131,59 @@ scene("garden", () => {
 		"gardenbox4"
 	])
 	
-	const SPEED = 300;
+	const SPEED = 70;
 	
 	/******** MOVEMENT  ********/
+
+	let myInterval;
+    const intervalTime=300
+
+    function animateR() {
+        clearInterval(myInterval)
+    	myInterval = setInterval(() => {
+        bean.play("runRight");
+    }, intervalTime);
+    }
+
+    function animateL() {
+        clearInterval(myInterval)
+        myInterval = setInterval(() => {
+            bean.play("runLeft");
+        }, intervalTime);
+        }
+
+    function animateD() {
+            clearInterval(myInterval)
+            myInterval = setInterval(() => {
+                bean.play("runDown");
+            }, intervalTime);
+        }
+
+    function animateU() {
+            clearInterval(myInterval)
+            myInterval = setInterval(() => {
+				bean.play("runUp");
+            }, intervalTime);
+        }
 	
 	onKeyPress("left", () => {
+		animateL()
+	})
+
+	onKeyDown("left", () => {
 		bean.move(-SPEED, 0)
 	})
 	
 	onKeyPress("right", () => {
-		bean.move(SPEED, 0)
-		
+		animateR()		
 	})
-	
+
+	onKeyDown("right", () => {
+		bean.move(SPEED, 0)
+	})
+
 	onKeyPress("up", () => {
+		animateU()		
 	})
 
 	onKeyDown("up", () => {
@@ -136,8 +191,28 @@ scene("garden", () => {
 	})
 	
 	onKeyPress("down", () => {
-		bean.move(0, SPEED)	
+		animateD()	
 	})
+
+	onKeyDown("down", () => {
+		bean.move(0, SPEED)
+	})
+
+	onKeyRelease("right",()=>{
+        clearInterval(myInterval)
+    })
+
+    onKeyRelease("left",()=>{
+        clearInterval(myInterval)
+    })
+
+    onKeyRelease("up",()=>{
+        clearInterval(myInterval)
+    })
+
+    onKeyRelease("down",()=>{
+        clearInterval(myInterval)
+    })
 	
 	
 	/****** COLLISION ******/
@@ -430,15 +505,27 @@ scene("newspaper", () => {
 		updatePlayerBank(-seedCosts[fruitType]);
 		playerInventory[fruitType+'Seed']++
 		document.getElementById(fruitType+'SeedAmount').innerHTML=playerInventory[fruitType+'Seed'];
+		ifEnoughMoneyToBuy();
 	}
 
 	function openSeedShop(){
-		document.getElementById("buySeedsModal").style.display = "block"
+		ifEnoughMoneyToBuy();
+		document.getElementById("buySeedsModal").style.display = "block";
 		var modal = document.getElementById("buySeedsModal");
 		var span = document.getElementsByClassName("close")[1];
 		// When the user clicks on <span> (x), close the modal
 		span.onclick = function() {
 		modal.style.display = "none";
+		}
+	}
+
+	function ifEnoughMoneyToBuy(){
+		const fruitTypes = ['corn', 'strawberry', 'carrot', 'tomato', 'pumpkin']
+		for(var i=0; i<5; i++){
+			if(playerBank<seedCosts[fruitTypes[i]]){
+				document.getElementById(fruitTypes[i]+'SeedB').disabled=true;
+				document.getElementById(fruitTypes[i]+'SeedB').style.backgroundColor='#d3d3d3';
+			}
 		}
 	}
 
