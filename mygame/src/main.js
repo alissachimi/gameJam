@@ -25,8 +25,9 @@ var amountSold = [
 	{fruit:'carrot', sold:0, expired:0},
 	{fruit:'tomato', sold:0, expired:0},
 	{fruit:'pumpkin', sold:0, expired:0}
-
 ]
+
+
 
 var gardenBoxContents=["empty", "empty", "empty", "empty"];
 var gardenBoxStatus=["empty", "empty", "empty", "empty"];
@@ -51,6 +52,14 @@ var seedCosts={
 	'strawberry':5,
 	'pumpkin': 5,
 	'tomato': 3
+}
+
+var sellPrices={
+	'carrot':5,
+	'corn':3,
+	'strawberry':8,
+	'pumpkin': 10,
+	'tomato': 5
 }
 
 function updatePlayerBank(amount){
@@ -489,7 +498,8 @@ scene("garden", () => {
 	}
 
 	function probabilityOfSell(fruitType){
-		var possibleProbs = [.2, .4, .6, .8]
+		var possibleProbs = [.4, .6, .8]
+		
 		if(stories[randomIntForWeekS].fruit==fruitType){
 			return 1
 		} else {
@@ -566,17 +576,23 @@ scene("garden", () => {
 	}
 
 	function sellProduce(){
-		const fruitTypes = ['corn', 'strawberry', 'carrot', 'tomato', 'pumpkin']
-		var amountToSell = 0
+		const fruitTypes = ['corn', 'strawberry', 'carrot', 'tomato', 'pumpkin'];
+		var amountToSell = 0;
+		var profit = 0;
 		for(var i=0; i<5; i++){
 			if(playerInventory[fruitTypes[i]]>=0){
-				amountToSell = probabilityOfSell(fruitTypes[i])*playerInventory[fruitTypes];
-				console.log('amount to sell in func: ' + amountToSell)
+				amountToSell = probabilityOfSell(fruitTypes[i])*playerInventory[fruitTypes[i]];
 				amountSold[i].sold=amountToSell;
+				profit += amountToSell*sellPrices[fruitTypes[i]];
 				amountSold[i].expired=playerInventory[fruitTypes[i]]-amountToSell;
 				playerInventory[fruitTypes[i]]=0;
+			} else {
+				amountSold[i].sold=0
+				amountSold[i].expired=0
+
 			}
 	}
+	updatePlayerBank(profit)
 	}
 }) 
 
