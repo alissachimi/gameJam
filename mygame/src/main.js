@@ -8,8 +8,8 @@ kaboom({
 //define gloabals
 var weatherOptions = [['hot', 'sunny'], ['hot', 'cloudy'], ['hot', 'rainy'], 
 						['mild', 'sunny'], ['mild', 'cloudy'], ['mild', 'rainy'], 
-						['cold', 'sunny'], ['cold', 'cloudy'], ['cold', 'rainy']]
-var randomIntForWeek = rand(9);
+						['cold', 'sunny'], ['cold', 'cloudy'], ['cold', 'rainy']];
+var randomIntForWeek = randi(9);
 
 var gardenBoxContents=["empty", "empty", "empty", "empty"];
 var gardenBoxStatus=["empty", "empty", "empty", "empty"];
@@ -679,8 +679,11 @@ scene("newspaper", () => {
 		createGardenSign();
 		document.getElementById("newspaperModal").style.display = "block";
 
-		if(!document.getElementById("newspaperModal")){
-			console.log('cant find condtition')
+		if(document.getElementById("tempP")){
+			debug.log('found temp')
+		}
+		if(document.getElementById("conditionsP")){
+			debug.log('found condtition')
 		}
 
     	document.getElementById("tempP").innerHTML = weatherOptions[randomIntForWeek][0];
