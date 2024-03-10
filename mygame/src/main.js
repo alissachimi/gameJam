@@ -9,7 +9,16 @@ kaboom({
 var weatherOptions = [['hot', 'sunny'], ['hot', 'cloudy'], ['hot', 'rainy'], 
 						['mild', 'sunny'], ['mild', 'cloudy'], ['mild', 'rainy'], 
 						['cold', 'sunny'], ['cold', 'cloudy'], ['cold', 'rainy']];
-var randomIntForWeek = randi(9);
+
+var stories = [
+	{title: 'New Pizza Place!', content: 'Giuseppe is coming to Blossomville and opening a new restaurant. I am excited to try his world famous tomato pizza sauce.', pic:'sprites/tomato.png'},
+	{title: 'Happy Halloween!', content: 'Join us at the community center for the anual pumpkin carving contest!', pic:'sprites/pumpkin.png'},
+	{title: 'New Bunnies at the Zoo', content: 'Come meet the new litter of bunnies at the zoo. Pay $5 to feed them some carrots.', pic:'sprites/carrot.png'},
+	{title: 'Join us for a BBQ!', content: 'There will be a BBQ hosted in town sqaure on Friday. Hamburgers, corn bread, and corn-on-th-cob will be served.', pic:'sprites/corn.png'},
+	{title: 'Jam Factory to Be Built', content: 'The Jam Factory will be finished in 3 days! Come by for a free sample of strawberry jam.', pic:'sprites/strawberry.png'}
+]
+var randomIntForWeekW = randi(9);
+var randomIntForWeekS = randi(5);
 
 var gardenBoxContents=["empty", "empty", "empty", "empty"];
 var gardenBoxStatus=["empty", "empty", "empty", "empty"];
@@ -69,7 +78,6 @@ scene("garden", () => {
 	loadSprite("playerBack", "sprites/playerback.png")
 	loadSprite("playerLeft", "sprites/playerLeft.png")
 	loadSprite("playerRight", "sprites/playerRight.png")
-	loadSprite("videoScene", "sprites/gamejam_2.mp4")
 
 	loadSprite("gardenbox", "sprites/gardenbox.png")
 	loadSprite("carrotplantedbox", "sprites/carrotplantedbox.png")
@@ -229,7 +237,7 @@ scene("garden", () => {
 			openSeedSelector();
 		}
 		if(gardenBoxStatus[0]=="dead"){
-			removeDeadProduce();
+			removeDeadProduce(0);
 		}
 		if(gardenBoxStatus[0]=="grown"){
 			harvestProduce(0);
@@ -242,7 +250,7 @@ scene("garden", () => {
 			openSeedSelector();
 		}
 		if(gardenBoxStatus[1]=="dead"){
-			removeDeadProduce();
+			removeDeadProduce(1);
 		}
 		if(gardenBoxStatus[1]=="grown"){
 			harvestProduce(1);
@@ -255,7 +263,7 @@ scene("garden", () => {
 			openSeedSelector();
 		}
 		if(gardenBoxStatus[2]=="dead"){
-			removeDeadProduce();
+			removeDeadProduce(2);
 		}
 		if(gardenBoxStatus[2]=="grown"){
 			harvestProduce(2);
@@ -268,7 +276,7 @@ scene("garden", () => {
 			openSeedSelector();
 		}
 		if(gardenBoxStatus[3]=="dead"){
-			removeDeadProduce();
+			removeDeadProduce(3);
 		}
 		if(gardenBoxStatus[3]=="grown"){
 			harvestProduce(3);
@@ -441,7 +449,7 @@ scene("garden", () => {
 				} else {
 					gardenBoxes[i] = add([
 						pos(gardenBoxPositions[i]),
-						sprite(gardenBoxPositions[i] + "deadbox"),
+						sprite(gardenBoxContents[i] + "deadbox"),
 						scale(.25),
 						area(),
 						body({ isStatic: true}),
@@ -454,6 +462,21 @@ scene("garden", () => {
 	}
 	
 	function probabilityOfSurvival(fruitType){
+		if(fruitType == 'strawberry' && weatherOptions[randomIntForWeekW][0]=='cold'){
+			return 0;
+		}
+		if(fruitType == 'corn' && weatherOptions[randomIntForWeekW][0]=='hot'){
+			return 0;
+		}
+		if(fruitType == 'tomato' && weatherOptions[randomIntForWeekW][1]=='cloudy'){
+			return 0;
+		}
+		if(fruitType == 'pumpkin' && weatherOptions[randomIntForWeekW][1]=='rainy'){
+			return 0;
+		}
+		if(fruitType == 'carrot' && weatherOptions[randomIntForWeekW][1]=='sunny'){
+			return 0;
+		}
 		return 1;
 	}
 	
@@ -482,6 +505,25 @@ scene("garden", () => {
 	
 		
 	}
+
+	function removeDeadProduce(index){
+		destroy(gardenBoxes[index]);
+	
+		gardenBoxes[index] = add([
+			pos(gardenBoxPositions[index]),
+			sprite("gardenbox"),
+			scale(.25),
+			area(),
+			body({ isStatic: true}),
+			gardenBoxNames[index]
+		])
+
+		var modal = document.getElementById("deadModal");
+		modal.style.display = "block";
+	}
+
+	document.getElementById("closeDeadModal").addEventListener("click", function() { console.log('entered function'); document.getElementById("deadModal").style.display = "none";}, false);
+
 }) 
 
 scene("newspaper", () => {
@@ -679,16 +721,15 @@ scene("newspaper", () => {
 		createGardenSign();
 		document.getElementById("newspaperModal").style.display = "block";
 
-		if(document.getElementById("tempP")){
-			debug.log('found temp')
-		}
-		if(document.getElementById("conditionsP")){
-			debug.log('found condtition')
-		}
+    	document.getElementById("tempP").innerHTML = '&#x1F321;: ' + weatherOptions[randomIntForWeekW][0];
 
-    	document.getElementById("tempP").innerHTML = weatherOptions[randomIntForWeek][0];
+    	document.getElementById("conditionsP").innerHTML = '&#x2600;: ' + weatherOptions[randomIntForWeekW][1];
 
-    	document.getElementById("conditionsP").innerHTML = weatherOptions[randomIntForWeek][1];
+		document.getElementById("newsTitle").innerHTML = stories[randomIntForWeekS].title;
+
+    	document.getElementById("newsParagraph").innerHTML = stories[randomIntForWeekS].content;
+    	document.getElementById("newsPic").src = stories[randomIntForWeekS].pic;
+		
 
 		var modal = document.getElementById("newspaperModal");
 
