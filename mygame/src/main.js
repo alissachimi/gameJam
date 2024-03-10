@@ -131,9 +131,9 @@ scene("garden", () => {
 		"gardenbox4"
 	])
 	
-	const SPEED = 70;
-	
 	/******** MOVEMENT  ********/
+
+	const SPEED = 70;
 
 	let myInterval;
     const intervalTime=100
@@ -621,4 +621,4 @@ scene("newspaper", () => {
 })
 
 updatePlayerBank(0);
-go("newspaper")
+go("garden");
