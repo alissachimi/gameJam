@@ -6,6 +6,11 @@ kaboom({
 })
 
 //define gloabals
+var weatherOptions = [['hot', 'sunny'], ['hot', 'cloudy'], ['hot', 'rainy'], 
+						['mild', 'sunny'], ['mild', 'cloudy'], ['mild', 'rainy'], 
+						['cold', 'sunny'], ['cold', 'cloudy'], ['cold', 'rainy']]
+var randomIntForWeek = rand(9);
+
 var gardenBoxContents=["empty", "empty", "empty", "empty"];
 var gardenBoxStatus=["empty", "empty", "empty", "empty"];
 var currentStep = "plant";
@@ -609,6 +614,7 @@ scene("newspaper", () => {
 	})
 
 	bean.onCollide("gardenSign", ()=> {
+
 		go("garden")
 	})
 
@@ -651,7 +657,17 @@ scene("newspaper", () => {
 		visitedNews = true;
 		createGardenSign();
 		document.getElementById("newspaperModal").style.display = "block";
+
+		if(!document.getElementById("newspaperModal")){
+			console.log('cant find condtition')
+		}
+
+    	document.getElementById("tempP").innerHTML = weatherOptions[randomIntForWeek][0];
+
+    	document.getElementById("conditionsP").innerHTML = weatherOptions[randomIntForWeek][1];
+
 		var modal = document.getElementById("newspaperModal");
+
 		var span = document.getElementsByClassName("close")[2];
 		// When the user clicks on <span> (x), close the modal
 		span.onclick = function() {
@@ -682,4 +698,4 @@ scene("newspaper", () => {
 })
 
 updatePlayerBank(0);
-go("garden");
+go("newspaper");
