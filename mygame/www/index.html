@@ -43,7 +43,7 @@
 		margin: auto;
 		padding: 20px;
 		border: 1px solid floralwhite;
-		width: 400px;
+		width: 450px;
 		height: 150px;
 		background-color: #bf6c5a; 
 		border-radius: 5px;
@@ -161,9 +161,48 @@
 			<td id="coinAmount">0</td>
 		</tr>
 	</table>
+	<br><br><br>
+	<p style="color:#000; text-align: left;">seed inventory</p>
+	<div>
+		<table id="inventory">
+		<tr id="fruitImages"> 
+			<td id="cornImage"><img width="30px" src="sprites/corn.png"></td>
+			<td id="pumpkinImage"><img width="30px" src="sprites/pumpkin.png"></td>
+			<td id="tomatoImage"><img width="30px" src="sprites/tomato.png"></td>
+			<td id="carrotImage"><img width="30px" src="sprites/carrot.png"></td>
+			<td id="strawberryImage"><img width="30px" src="sprites/strawberry.png"></td>
+		</tr>
+		<tr id="seedAmounts">
+			<td id="cornSeedAmount">0</td>
+			<td id="pumpkinSeedAmount">0</td>
+			<td id="tomatoSeedAmount">0</td>
+			<td id="carrotSeedAmount">0</td>
+			<td id="strawberrySeedAmount">0</td>
+		</tr>
+		</table>
+	</div>
 	
 	<button id="growSeedsB">grow</button>
 
+	<div id="buySeedsModal" class="modal">
+			
+		<!-- Modal content -->
+		<div class="modal-content">
+		  <span class="close">&times;</span>
+		  <p>Which seeds would you like to buy?</p>
+		  
+		  <div style="display:flex; text-align: center;
+		  justify-content: center; background-color: floralwhite;
+		  border-radius: 2px;">
+			
+			<button style="border: 1px solid #bf6c5a;" class="fruitButton" id="cornSeedB"><img style="border: 1px solid #bf6c5a;" width="75px" src="sprites/corn.png">$2</button>
+			<button style="border: 1px solid #bf6c5a;" class="fruitButton" id="pumpkinSeedB"><img style="border: 1px solid #bf6c5a;" width="75px" src="sprites/pumpkin.png">$5</button>
+			<button style="border: 1px solid #bf6c5a;" class="fruitButton" id="tomatoSeedB"><img style="border: 1px solid #bf6c5a;" width="75px" src="sprites/tomato.png"> $3</button>
+			<button style="border: 1px solid #bf6c5a;" class="fruitButton" id="carrotSeedB"><img style="border: 1px solid #bf6c5a;" width="75px" src="sprites/carrot.png">$3</button>
+			<button style="border: 1px solid #bf6c5a;" class="fruitButton" id="strawberrySeedB"><img style="border: 1px solid #bf6c5a;" width="75px" src="sprites/strawberry.png">$5</button>
+		</div>
+		</div>
+	</div>
 	  
 </body>
 <script src="main.js"></script>
