@@ -64,6 +64,7 @@ scene("garden", () => {
 	loadSprite("playerBack", "sprites/playerback.png")
 	loadSprite("playerLeft", "sprites/playerLeft.png")
 	loadSprite("playerRight", "sprites/playerRight.png")
+	loadSprite("videoScene", "sprites/gamejam_2.mp4")
 
 	loadSprite("gardenbox", "sprites/gardenbox.png")
 	loadSprite("carrotplantedbox", "sprites/carrotplantedbox.png")
@@ -280,6 +281,7 @@ scene("garden", () => {
 		var span = document.getElementsByClassName("close")[0];
 	
 		modal.style.display = "block";
+		getPlayerSeedOptions()
 	
 		// When the user clicks on <span> (x), close the modal
 		span.onclick = function() {
@@ -350,8 +352,36 @@ scene("garden", () => {
 		}
 	
 		modal.style.display = "none";
+		playerInventory[fruitType+'Seed']--;
+		document.getElementById(fruitType+'SeedAmount').innerHTML=playerInventory[fruitType+'Seed'];
+
+		if(gardenBoxStatus[0]=="planted" && gardenBoxStatus[1]=="planted" && gardenBoxStatus[2]=="planted" && gardenBoxStatus[3]=="planted"){
+			playCutScene();
+		}
+		if(playerInventory['cornSeed']==0 && playerInventory['strawberrySeed']==0 && playerInventory['pumpkinSeed']==0 && playerInventory['tomatoSeed']==0 && playerInventory['carrotSeed']==0){
+			playCutScene();
+		}
 		
-	
+	}
+
+	function playCutScene(){
+		//HAVE TO MOVE BEAN!!
+		document.getElementById('gardenCutscene').style.display="block";
+		document.getElementById('gardenCutscene').play();
+		wait(10, () => {
+			growSeed()
+			document.getElementById('gardenCutscene').style.display="none";
+		})
+		
+	}
+
+	function getPlayerSeedOptions(){
+		const fruitTypes = ['corn', 'strawberry', 'carrot', 'tomato', 'pumpkin']
+		for(var i=0; i<5; i++){
+			if(playerInventory[fruitTypes[i]+'Seed']==0){
+				document.getElementById(fruitTypes[i]+'Button').style.display='none';
+			}
+		}
 	}
 	
 	
