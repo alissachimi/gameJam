@@ -407,7 +407,7 @@ scene("newspaper", () => {
 	})
 
 	bean.onCollide("newspaperStand", () => {
-		
+		openNewspaper();
 	})
 
 	document.getElementById("cornSeedB").addEventListener("click", function() {buySeed('corn')}, false);
@@ -426,6 +426,16 @@ scene("newspaper", () => {
 		document.getElementById("buySeedsModal").style.display = "block"
 		var modal = document.getElementById("buySeedsModal");
 		var span = document.getElementsByClassName("close")[1];
+		// When the user clicks on <span> (x), close the modal
+		span.onclick = function() {
+		modal.style.display = "none";
+		}
+	}
+
+	function openNewspaper(){
+		document.getElementById("newspaperModal").style.display = "block";
+		var modal = document.getElementById("newspaperModal");
+		var span = document.getElementsByClassName("close")[2];
 		// When the user clicks on <span> (x), close the modal
 		span.onclick = function() {
 		modal.style.display = "none";
