@@ -16,7 +16,7 @@
 			background-size: cover;
 		}
 
-		canvas{
+		canvas, video{
 			border-radius: 3%;
 			margin: 0;
 			position: absolute;
@@ -31,7 +31,7 @@
 		display: none; /* Hidden by default */
 		position: fixed; /* Stay in place */
 		z-index: 1; /* Sit on top */
-		padding-top: 275px; /* Location of the box */
+		padding-top: 75px; /* Location of the box */
 		left: 0;
 		top: 0;
 		width: 100%; /* Full width */
@@ -51,6 +51,18 @@
 		background-color: #bf6c5a; 
 		border-radius: 5px;
 		color: floralwhite;
+		font-family: "Pixelify Sans", sans-serif;
+		}
+
+		.newspaper-content {
+		margin: auto;
+		padding: 10px;
+		border: 3px solid rgb(68, 67, 66);
+		width: 450px;
+		height: fit-content;
+		background-color: floralwhite; 
+		border-radius: 5px;
+		color: rgb(100, 97, 95);
 		font-family: "Pixelify Sans", sans-serif;
 		}
 
@@ -110,6 +122,10 @@
 			text-align: center;
 			font-size: 40px;
 		}
+		.grid-item {
+            padding: 10px;
+            text-align: center;
+        }
 		
 	</style>
 </head>
@@ -119,6 +135,11 @@
 		<h1>GoGo Garden</h1>
 	</div>
 	<div class="canvasparent">
+
+		<video width="520" height="520" id="gardenCutscene" style="display: none; z-index: 10000;">
+			<source src="sprites/gamejam_2.mp4" type="video/mp4">
+			Your browser does not support the video tag.
+		</video>
 		
 		<div id="myModal" class="modal">
 			
@@ -212,17 +233,35 @@
 
 		<div id="newspaperModal" class="modal">
 					<!-- Modal content -->
-			<div class="modal-content">
+			<div class="newspaper-content">
 			<span class="close">&times;</span>
-			<p>The Blossomville Times</p>
-			
-			<div style="display:flex; text-align: center;
+			<h1 style="font-size: x-large;">The Blossomville Times</h1>
+			<hr>
+			<div style="display:grid; grid-template-columns: 50% 50%; text-align: center;
 			justify-content: center; background-color: floralwhite;
 			border-radius: 2px;">
-			<p>hello!</p>
+			<img id="newsPic" class="grid-item" style="border: 1px solid rgb(104, 102, 100); justify-self: center;"  src="sprites/tomato.png">
+			<div class="grid-item">
+				<h4 id="newsTitle" style="margin-top: 0; margin-bottom: 0;">New Pizza Place!</h4>
+				<p id="newsParagraph" style="font-family: 'Courier New', Courier, monospace;">Giuseppe is coming to Blossomville and opening a new restaurant. I am excited to try his world famous tomato pizza sauce.</p>
+			</div>
 				
 			</div>
+			<hr><hr>
+			<div style="display:grid; grid-template-columns: 50% 50%; text-align: center;
+			justify-content: center; background-color: floralwhite;
+			border-radius: 2px;">
+				<div class="grid-item">
+				<h4 style="margin: 2px;">Weather Forcast</h4>
+				<p style="font-size: large; margin: 0; font-family: 'Courier New', Courier, monospace;">&#x1F321;: hot </p>
+				<p style="font-size: large; margin: 0; font-family: 'Courier New', Courier, monospace;">&#x2600;: no sun</p>
+				<p style="font-size: large; margin: 0; font-family: 'Courier New', Courier, monospace;">&#x1F327;: lots of rain </p>
+				</div>
+				<div class="grid-item"><hr><br><hr><br><hr><br><hr></div>
 			</div>
+			<hr><hr><hr><hr>
+			</div>
+			
 		</div>
 	</div>
 	  
