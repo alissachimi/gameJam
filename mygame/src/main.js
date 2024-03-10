@@ -6,6 +6,11 @@ kaboom({
 })
 
 //define gloabals
+var weatherOptions = [['hot', 'sunny'], ['hot', 'cloudy'], ['hot', 'rainy'], 
+						['mild', 'sunny'], ['mild', 'cloudy'], ['mild', 'rainy'], 
+						['cold', 'sunny'], ['cold', 'cloudy'], ['cold', 'rainy']];
+var randomIntForWeek = randi(9);
+
 var gardenBoxContents=["empty", "empty", "empty", "empty"];
 var gardenBoxStatus=["empty", "empty", "empty", "empty"];
 var currentStep = "plant";
@@ -274,6 +279,7 @@ scene("garden", () => {
 	//extra non kaboom stuff
 	
 	function openSeedSelector(){
+		debug.log("Opened seed selector");
 		var modal = document.getElementById("myModal");
 	
 		var btn = document.getElementById("myBtn");
@@ -281,6 +287,7 @@ scene("garden", () => {
 		var span = document.getElementsByClassName("close")[0];
 	
 		modal.style.display = "block";
+		debug.log("modal displayed");
 		getPlayerSeedOptions()
 	
 		// When the user clicks on <span> (x), close the modal
@@ -372,15 +379,34 @@ scene("garden", () => {
 			growSeed()
 			document.getElementById('gardenCutscene').style.display="none";
 		})
+		destroy(bean);
+		const bean = add([
+			sprite("bean", {
+				animSpeed: 1,
+				frame:4
+			}),
+			pos(225, 10),
+			area(),
+			body(),
+			scale(.3),
+			"bean"
+		])
 		
 	}
 
 	function getPlayerSeedOptions(){
+		var noSeeds = true;
 		const fruitTypes = ['corn', 'strawberry', 'carrot', 'tomato', 'pumpkin']
 		for(var i=0; i<5; i++){
 			if(playerInventory[fruitTypes[i]+'Seed']==0){
 				document.getElementById(fruitTypes[i]+'Button').style.display='none';
 			}
+			else {
+				noSeeds = false;
+			}
+		}
+		if (noSeeds) {
+			document.getElementById("seedMessage").innerHTML = "You have no seeds. Visit the seed shop to purchase seeds!"
 		}
 	}
 	
@@ -609,6 +635,7 @@ scene("newspaper", () => {
 	})
 
 	bean.onCollide("gardenSign", ()=> {
+
 		go("garden")
 	})
 
@@ -651,7 +678,20 @@ scene("newspaper", () => {
 		visitedNews = true;
 		createGardenSign();
 		document.getElementById("newspaperModal").style.display = "block";
+
+		if(document.getElementById("tempP")){
+			debug.log('found temp')
+		}
+		if(document.getElementById("conditionsP")){
+			debug.log('found condtition')
+		}
+
+    	document.getElementById("tempP").innerHTML = weatherOptions[randomIntForWeek][0];
+
+    	document.getElementById("conditionsP").innerHTML = weatherOptions[randomIntForWeek][1];
+
 		var modal = document.getElementById("newspaperModal");
+
 		var span = document.getElementsByClassName("close")[2];
 		// When the user clicks on <span> (x), close the modal
 		span.onclick = function() {
@@ -682,4 +722,4 @@ scene("newspaper", () => {
 })
 
 updatePlayerBank(0);
-go("garden");
+go("newspaper");
