@@ -55,7 +55,7 @@ scene("garden", () => {
 			runLeft: { from: 6, to: 7 },
 			runDown: { from: 4, to: 5 },
 			runUp: { from: 1, to: 2 },
-			idle:3
+			idle:4
 		}
 	})
 
@@ -88,9 +88,9 @@ scene("garden", () => {
 	const bean = add([
 		sprite("bean", {
 			animSpeed: 1,
-			frame:0
+			frame:4
 		}),
-		pos(225, 225),
+		pos(225, 10),
 		area(),
 		body(),
 		scale(.3),
@@ -431,8 +431,9 @@ scene("garden", () => {
 scene("newspaper", () => {
 	loadSprite("background", "sprites/gardenbackground.png");
 	loadSprite("newspaperStand", "sprites/newspaperStand.png")
-	loadSprite("seedsStand", "sprites/corngrownbox.png")
+	loadSprite("seedsStand", "sprites/seedStand.png")
 	loadSprite("seeds", "sprites/corngrownbox.png")
+	loadSprite("gardenSign", "sprites/gardenSign.png")
 
 	loadSprite('bean', 'sprites/spritesheet.png', {
 		sliceX: 10,
@@ -463,12 +464,21 @@ scene("newspaper", () => {
 	])
 
 	var seedsStand = add([
-		pos(320, 50),
+		pos(320, 40),
 		sprite("seedsStand"),
-		scale(.25),
+		scale(.2),
 		area(),
 		body({ isStatic: true}),
 		"seedsStand"
+	])
+
+	const gardenSign = add([
+		pos(270, 415),
+		sprite("gardenSign"),
+		scale(.15),
+		area(),
+		body({ isStatic: true}),
+		"gardenSign"
 	])
 
 	const bean = add([
@@ -572,6 +582,10 @@ scene("newspaper", () => {
 
 	bean.onCollide("newspaperStand", () => {
 		openNewspaper();
+	})
+
+	bean.onCollide("gardenSign", ()=> {
+		go("garden")
 	})
 
 	document.getElementById("cornSeedB").addEventListener("click", function() {buySeed('corn')}, false);
