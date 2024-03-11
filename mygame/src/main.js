@@ -5,10 +5,6 @@ kaboom({
     height: 520,
 })
 
-
-var firstInitGarden=true
-var firstInitNewspaper=true
-
 //define gloabals
 var weatherOptions = [['hot', 'sunny'], ['hot', 'cloudy'], ['hot', 'rainy'], 
 						['mild', 'sunny'], ['mild', 'cloudy'], ['mild', 'rainy'], 
@@ -34,9 +30,16 @@ var amountSold = [
 ]
 
 
-
+var gardenbox1;
+var gardenbox2;
+var gardenbox3;
+var gardenbox4;
+var gardenSign;
 var gardenBoxContents=["empty", "empty", "empty", "empty"];
 var gardenBoxStatus=["empty", "empty", "empty", "empty"];
+var gardenBoxes = [] //defined later
+var gardenBoxNames=["gardenbox1", "gardenbox2", "gardenbox3", "gardenbox4"]
+var gardenBoxPositions = [[10, 50], [320, 50], [320, 340], [10, 340]]
 var currentStep = "plant";
 var playerInventory={
 	'carrot':0,
@@ -73,8 +76,6 @@ function updatePlayerBank(amount){
 	document.getElementById("coinAmount").innerHTML=playerBank;
 }
 
-
-scene("garden", () => {
 	loadSprite("background", "sprites/gardenbackground.png");
 
 	// Create a background entity
@@ -121,53 +122,122 @@ scene("garden", () => {
 	loadSprite("pumpkindeadbox", "sprites/pumpkindeadbox.png")
 	loadSprite("strawberrydeadbox", "sprites/strawberrydeadbox.png")
 	loadSprite("tomatodeadbox", "sprites/tomatodeadbox.png")
-	
-	
-	const bean = add([
-		sprite("bean", {
-			animSpeed: 1,
-			frame:4
-		}),
-		pos(225, 10),
-		area(),
-		body(),
-		scale(.3),
-		"bean"
-	])
-	
 
-	var gardenbox1 = add([
-		pos(10, 50),
-		sprite("gardenbox"),
-		scale(.25),
-		area(),
-		body({ isStatic: true}),
-		"gardenbox1"
-	])
-	var gardenbox2 = add([
-		pos(320, 50),
-		sprite("gardenbox"),
-		scale(.25),
-		area(),
-		body({ isStatic: true}),
-		"gardenbox2"
-	])
-	var gardenbox3 = add([
-		pos(320, 340),
-		sprite("gardenbox"),
-		scale(.25),
-		area(),
-		body({ isStatic: true}),
-		"gardenbox3"
-	])
-	var gardenbox4 = add([
-		pos(10, 340),
-		sprite("gardenbox"),
-		scale(.25),
-		area(),
-		body({ isStatic: true}),
-		"gardenbox4"
-	])
+	function changeScenetoGarden(){
+		destroy(newspaperStand);
+		destroy(seedsStand);
+		destroy(gardenSign);
+		destroy(bean)
+
+		bean = add([
+			sprite("bean", {
+				animSpeed: 1,
+				frame:4
+			}),
+			pos(225, 10),
+			area(),
+			body(),
+			scale(.3),
+			"bean"
+		])
+		
+
+		gardenbox1 = add([
+			pos(10, 50),
+			sprite("gardenbox"),
+			scale(.25),
+			area(),
+			body({ isStatic: true}),
+			"gardenbox1"
+		])
+		gardenbox2 = add([
+			pos(320, 50),
+			sprite("gardenbox"),
+			scale(.25),
+			area(),
+			body({ isStatic: true}),
+			"gardenbox2"
+		])
+		gardenbox3 = add([
+			pos(320, 340),
+			sprite("gardenbox"),
+			scale(.25),
+			area(),
+			body({ isStatic: true}),
+			"gardenbox3"
+		])
+		gardenbox4 = add([
+			pos(10, 340),
+			sprite("gardenbox"),
+			scale(.25),
+			area(),
+			body({ isStatic: true}),
+			"gardenbox4"
+		])
+
+		addOnCollideEventsForGardenBoxes();
+
+		gardenBoxes=[gardenbox1, gardenbox2, gardenbox3, gardenbox4];
+		
+	}
+
+	function addOnCollideEventsForGardenBoxes(){
+		
+		bean.onCollide("gardenbox1", (gardenbox1) => {
+			debug.log('collided with gardenbox1')
+			collidedBox = "gardenbox1"
+			if(gardenBoxContents[0]=="empty" && currentStep=="plant"){
+				openSeedSelector();
+			}
+			if(gardenBoxStatus[0]=="dead"){
+				removeDeadProduce(0);
+			}
+			if(gardenBoxStatus[0]=="grown"){
+				debug.log('trying to harvest?')
+				harvestProduce(0);
+			}
+			
+		})
+		bean.onCollide("gardenbox2", (gardenbox2) => {
+			collidedBox = "gardenbox2"
+			if(gardenBoxContents[1]=="empty" && currentStep=="plant"){
+				openSeedSelector();
+			}
+			if(gardenBoxStatus[1]=="dead"){
+				removeDeadProduce(1);
+			}
+			if(gardenBoxStatus[1]=="grown"){
+				harvestProduce(1);
+			}
+			
+		})
+		bean.onCollide("gardenbox3", (gardenbox3) => {
+			collidedBox = "gardenbox3"
+			if(gardenBoxContents[2]=="empty" && currentStep=="plant"){
+				openSeedSelector();
+			}
+			if(gardenBoxStatus[2]=="dead"){
+				removeDeadProduce(2);
+			}
+			if(gardenBoxStatus[2]=="grown"){
+				harvestProduce(2);
+			}
+			
+		})
+		bean.onCollide("gardenbox4", (gardenbox4) => {
+			collidedBox = "gardenbox4"
+			if(gardenBoxContents[3]=="empty" && currentStep=="plant"){
+				openSeedSelector();
+			}
+			if(gardenBoxStatus[3]=="dead"){
+				removeDeadProduce(3);
+			}
+			if(gardenBoxStatus[3]=="grown"){
+				harvestProduce(3);
+			}
+			
+		})
+	}
 	
 	/******** MOVEMENT  ********/
 
@@ -255,67 +325,11 @@ scene("garden", () => {
 	
 	/****** COLLISION ******/
 	var collidedBox = ""
-	bean.onCollide("gardenbox1", (gardenbox1) => {
-		collidedBox = "gardenbox1"
-		if(gardenBoxContents[0]=="empty" && currentStep=="plant"){
-			openSeedSelector();
-		}
-		if(gardenBoxStatus[0]=="dead"){
-			removeDeadProduce(0);
-		}
-		if(gardenBoxStatus[0]=="grown"){
-			harvestProduce(0);
-		}
-		
-	})
-	bean.onCollide("gardenbox2", (gardenbox2) => {
-		collidedBox = "gardenbox2"
-		if(gardenBoxContents[1]=="empty" && currentStep=="plant"){
-			openSeedSelector();
-		}
-		if(gardenBoxStatus[1]=="dead"){
-			removeDeadProduce(1);
-		}
-		if(gardenBoxStatus[1]=="grown"){
-			harvestProduce(1);
-		}
-		
-	})
-	bean.onCollide("gardenbox3", (gardenbox3) => {
-		collidedBox = "gardenbox3"
-		if(gardenBoxContents[2]=="empty" && currentStep=="plant"){
-			openSeedSelector();
-		}
-		if(gardenBoxStatus[2]=="dead"){
-			removeDeadProduce(2);
-		}
-		if(gardenBoxStatus[2]=="grown"){
-			harvestProduce(2);
-		}
-		
-	})
-	bean.onCollide("gardenbox4", (gardenbox4) => {
-		collidedBox = "gardenbox4"
-		if(gardenBoxContents[3]=="empty" && currentStep=="plant"){
-			openSeedSelector();
-		}
-		if(gardenBoxStatus[3]=="dead"){
-			removeDeadProduce(3);
-		}
-		if(gardenBoxStatus[3]=="grown"){
-			harvestProduce(3);
-		}
-		
-	})
 
-	bean.onCollide("marketSign", () => {
-		travelToMarket();
-	})
-	
 	//extra non kaboom stuff
 	
 	function openSeedSelector(){
-		debug.log("Opened seed selector");
+		//debug.log("Opened seed selector");
 		var modal = document.getElementById("myModal");
 	
 		var btn = document.getElementById("myBtn");
@@ -323,7 +337,7 @@ scene("garden", () => {
 		var span = document.getElementsByClassName("close")[0];
 	
 		modal.style.display = "block";
-		debug.log("modal displayed");
+		//debug.log("modal displayed");
 		getPlayerSeedOptions()
 	
 		// When the user clicks on <span> (x), close the modal
@@ -418,14 +432,8 @@ scene("garden", () => {
 
 	function playCutScene(){
 		//HAVE TO MOVE BEAN!!
-		document.getElementById('gardenCutscene').style.display="block";
-		document.getElementById('gardenCutscene').play();
-		wait(10, () => {
-			growSeed()
-			document.getElementById('gardenCutscene').style.display="none";
-		})
 		destroy(bean);
-		const bean = add([
+		bean = add([
 			sprite("bean", {
 				animSpeed: 1,
 				frame:4
@@ -436,6 +444,13 @@ scene("garden", () => {
 			scale(.3),
 			"bean"
 		])
+		document.getElementById('gardenCutscene').style.display="block";
+		document.getElementById('gardenCutscene').play();
+		wait(10, () => {
+			growSeed()
+			document.getElementById('gardenCutscene').style.display="none";
+		})
+
 		
 	}
 
@@ -457,20 +472,10 @@ scene("garden", () => {
 	}
 	
 	
-	/******** INVENTORY *********/
-	var cornAmount = 0;
-	
-	
-	
-	var gardenBoxes=[gardenbox1, gardenbox2, gardenbox3, gardenbox4]
-	var gardenBoxNames=["gardenbox1", "gardenbox2", "gardenbox3", "gardenbox4"]
-	var gardenBoxPositions = [[10, 50], [320, 50], [320, 340], [10, 340]]
-	
-	
 	function growSeed(){
 		currentStep = "harvest";
 		for(var i=0; i<4; i++){
-			debug.log(gardenBoxContents)
+			//debug.log(gardenBoxContents)
 			if(gardenBoxContents[i]!="empty"){
 				destroy(gardenBoxes[i]);
 				if(rand(0,1)<probabilityOfSurvival(gardenBoxContents[i])){
@@ -497,6 +502,7 @@ scene("garden", () => {
 				}
 			}
 		}
+		addOnCollideEventsForGardenBoxes();
 	}
 	
 	function probabilityOfSurvival(fruitType){
@@ -530,6 +536,7 @@ scene("garden", () => {
 	
 	
 	function harvestProduce(index){
+		debug.log(gardenBoxes)
 		destroy(gardenBoxes[index]);
 	
 		gardenBoxes[index] = add([
@@ -587,6 +594,10 @@ scene("garden", () => {
 				body({ isStatic: true}),
 				"marketSign"
 			])
+
+			bean.onCollide("marketSign", () => {
+				travelToMarket();
+			})
 		}
 	}
 
@@ -628,34 +639,11 @@ scene("garden", () => {
 	document.getElementById('profitBox').innerHTML = 'Total Profit: ' + profit;
 	profit=0;
 	}
-	
-}) 
 
-scene("newspaper", () => {
-	loadSprite("background", "sprites/gardenbackground.png");
 	loadSprite("newspaperStand", "sprites/newspaperStand.png")
 	loadSprite("seedsStand", "sprites/seedStand.png")
 	loadSprite("seeds", "sprites/corngrownbox.png")
 	loadSprite("gardenSign", "sprites/gardenSign.png")
-
-	loadSprite('bean', 'sprites/spritesheet.png', {
-		sliceX: 10,
-		sliceY: 1,
-		anims: {
-			runRight: { from: 8, to: 9 },
-			runLeft: { from: 6, to: 7 },
-			runDown: { from: 4, to: 5 },
-			runUp: { from: 1, to: 2 },
-			idle:3
-		}
-	})
-
-	// Create a background entity
-	const background = add([
-		sprite("background"), // Use the loaded background image
-		pos(0, 0),
-		scale(.52), // Adjust the scale if needed
-		]);
 
 	var newspaperStand = add([
 		pos(20, 40),
@@ -676,7 +664,7 @@ scene("newspaper", () => {
 	])
 
 
-	const bean = add([
+	var bean = add([
 		sprite("bean", {
 			animSpeed: 1,
 			frame:0
@@ -688,89 +676,6 @@ scene("newspaper", () => {
 		"bean"
 	])
 
-	const SPEED = 70;
-	
-	/******** MOVEMENT  ********/
-
-	let myInterval;
-    const intervalTime=300
-
-    function animateR() {
-        clearInterval(myInterval)
-    	myInterval = setInterval(() => {
-        bean.play("runRight");
-    }, intervalTime);
-    }
-
-    function animateL() {
-        clearInterval(myInterval)
-        myInterval = setInterval(() => {
-            bean.play("runLeft");
-        }, intervalTime);
-        }
-
-    function animateD() {
-            clearInterval(myInterval)
-            myInterval = setInterval(() => {
-                bean.play("runDown");
-            }, intervalTime);
-        }
-
-    function animateU() {
-            clearInterval(myInterval)
-            myInterval = setInterval(() => {
-				bean.play("runUp");
-            }, intervalTime);
-        }
-	
-	onKeyPress("left", () => {
-		animateL()
-	})
-
-	onKeyDown("left", () => {
-		bean.move(-SPEED, 0)
-	})
-	
-	onKeyPress("right", () => {
-		animateR()		
-	})
-
-	onKeyDown("right", () => {
-		bean.move(SPEED, 0)
-	})
-
-	onKeyPress("up", () => {
-		animateU()		
-	})
-
-	onKeyDown("up", () => {
-		bean.move(0, -SPEED)
-	})
-	
-	onKeyPress("down", () => {
-		animateD()	
-	})
-
-	onKeyDown("down", () => {
-		bean.move(0, SPEED)
-	})
-
-	onKeyRelease("right",()=>{
-        clearInterval(myInterval)
-    })
-
-    onKeyRelease("left",()=>{
-        clearInterval(myInterval)
-    })
-
-    onKeyRelease("up",()=>{
-        clearInterval(myInterval)
-    })
-
-    onKeyRelease("down",()=>{
-        clearInterval(myInterval)
-    })
-	
 	bean.onCollide("seedsStand", () => {
 		openSeedShop();
 	})
@@ -780,22 +685,19 @@ scene("newspaper", () => {
 	})
 
 	bean.onCollide("gardenSign", ()=> {
-
-		go("garden")
+		changeScenetoGarden();
 	})
-	if(firstInitNewspaper){
+
 		document.getElementById("cornSeedB").addEventListener("click", function() {buySeed('corn')}, false);
 		document.getElementById("pumpkinSeedB").addEventListener("click", function() { buySeed('pumpkin')}, false);
 		document.getElementById("strawberrySeedB").addEventListener("click", function() { buySeed('strawberry')}, false);
 		document.getElementById("carrotSeedB").addEventListener("click", function() { buySeed('carrot')}, false);
 		document.getElementById("tomatoSeedB").addEventListener("click", function() { buySeed('tomato')}, false);
-		firstInitNewspaper=false
-	}
 
 	
 	function buySeed(fruitType){
 		updatePlayerBank(-seedCosts[fruitType]);
-		playerInventory[fruitType+'Seed']+=3
+		playerInventory[fruitType+'Seed']+=1
 		document.getElementById(fruitType+'SeedAmount').innerHTML=playerInventory[fruitType+'Seed'];
 		ifEnoughMoneyToBuy();
 		createGardenSign();
@@ -858,7 +760,7 @@ scene("newspaper", () => {
 			}
 		}
 		if(visitedNews && hasSeeds){
-			const gardenSign = add([
+			gardenSign = add([
 				pos(270, 415),
 				sprite("gardenSign"),
 				scale(.15),
@@ -866,14 +768,7 @@ scene("newspaper", () => {
 				body({ isStatic: true}),
 				"gardenSign"
 			])
+			visitedNews=false
 		}
 	}
-	
-})
-
-scene("summary", () => {
-
-})
-
 updatePlayerBank(0);
-go("newspaper");
