@@ -184,7 +184,7 @@ function updatePlayerBank(amount){
 	function addOnCollideEventsForGardenBoxes(){
 		
 		bean.onCollide("gardenbox1", (gardenbox1) => {
-			debug.log('collided with gardenbox1')
+			//debug.log('collided with gardenbox1')
 			collidedBox = "gardenbox1"
 			if(gardenBoxContents[0]=="empty" && currentStep=="plant"){
 				openSeedSelector();
@@ -193,7 +193,7 @@ function updatePlayerBank(amount){
 				removeDeadProduce(0);
 			}
 			if(gardenBoxStatus[0]=="grown"){
-				debug.log('trying to harvest?')
+				//debug.log('trying to harvest?')
 				harvestProduce(0);
 			}
 			
@@ -536,7 +536,6 @@ function updatePlayerBank(amount){
 	
 	
 	function harvestProduce(index){
-		debug.log(gardenBoxes)
 		destroy(gardenBoxes[index]);
 	
 		gardenBoxes[index] = add([
@@ -617,12 +616,21 @@ function updatePlayerBank(amount){
 		const fruitTypes = ['corn', 'strawberry', 'carrot', 'tomato', 'pumpkin'];
 		var amountToSell = 0;
 		var profit = 0;
+		var fruitProfit=0;
+		var totalSold=0;
+		var totalExpired=0;
 		for(var i=0; i<5; i++){
 			if(playerInventory[fruitTypes[i]]>=0){
 				amountToSell = probabilityOfSell(fruitTypes[i])*playerInventory[fruitTypes[i]];
+				totalSold+=amountToSell;
 				amountSold[i].sold=amountToSell;
-				profit += amountToSell*sellPrices[fruitTypes[i]];
+				fruitProfit= amountToSell*sellPrices[fruitTypes[i]];
+				document.getElementById(fruitTypes[i]+'Profit').innerHTML = '$' + fruitProfit;
+				profit+=fruitProfit;
+
 				amountSold[i].expired=playerInventory[fruitTypes[i]]-amountToSell;
+				totalExpired+=amountSold[i].expired;
+
 				playerInventory[fruitTypes[i]]=0;
 				document.getElementById(fruitTypes[i]+'Amount').innerHTML = 0;
 			} else {
@@ -634,10 +642,12 @@ function updatePlayerBank(amount){
 			document.getElementById(fruitTypes[i]+'ExpiredRow').innerHTML = amountSold[i].expired;
 			
 	}
-	updatePlayerBank(profit)
-	document.getElementById('newBalanceBox').innerHTML = 'New Bank Balance: ' + playerBank;
-	document.getElementById('profitBox').innerHTML = 'Total Profit: ' + profit;
-	profit=0;
+		updatePlayerBank(profit)
+		document.getElementById('newBalanceBox').innerHTML = '$' + playerBank;
+		document.getElementById('totalProfit').innerHTML = '$' + profit;
+		document.getElementById('totalSoldRow').innerHTML = totalSold;
+		document.getElementById('totalExpiredRow').innerHTML = totalExpired;
+		profit=0;
 	}
 
 	loadSprite("newspaperStand", "sprites/newspaperStand.png")

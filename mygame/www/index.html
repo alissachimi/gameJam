@@ -139,6 +139,9 @@
             padding: 10px;
             text-align: center;
         }
+		.summaryTable td {
+			padding: 5px;
+		}
 		
 	</style>
 </head>
@@ -309,50 +312,70 @@
 			
 		<!-- Modal content -->
 		<div class="newspaper-content">
-		  <p id="seedMessage">Farmer's Market Summary</p>
+		  <h2 id="seedMessage">Farmer's Market Summary</h2>
 		  
 		  
 		  <div style="display:flex; text-align: center;
 		  justify-content: center; background-color: floralwhite;
-		  border-radius: 2px;">
-			<table>
-				<tr>
-					<td>Fruit</td>
-					<td>Sold</td>
-					<td>Expired</td>
-				</tr>
+		  border-radius: 2px; ">
+			<table class="summaryTable" style="background-color: #efeeee; padding: 5px;">
+				<thead style="font-weight: bold;">
+					<tr>
+						<td>Fruit</td>
+						<td>Sold</td>
+						<td>Expired</td>
+						<td>Sell Price</td>
+						<td>Profit</td>
+					</tr>
+				</thead>
 				<tr>
 					<td>Corn</td>
 					<td id="cornSoldRow">Sold</td>
 					<td id="cornExpiredRow">Expired</td>
+					<td>$3</td>
+					<b><td id="cornProfit"></td></b>
 				</tr>
 				<tr>
 					<td>Pumpkin</td>
 					<td id="pumpkinSoldRow">Sold</td>
 					<td id="pumpkinExpiredRow">Expired</td>
+					<td>$10</td>
+					<b><td id="pumpkinProfit"></td></b>
 				</tr>
 				<tr>
 					<td>Tomato</td>
 					<td id="tomatoSoldRow">Sold</td>
 					<td id="tomatoExpiredRow">Expired</td>
+					<td>$5</td>
+					<b><td id="tomatoProfit"></td></b>
 				</tr>
 				<tr>
 					<td>Carrot</td>
 					<td id="carrotSoldRow">Sold</td>
 					<td id="carrotExpiredRow">Expired</td>
+					<td>$5</td>
+					<td id="carrotProfit"></td>
 				</tr>
 				<tr>
 					<td>Strawberry</td>
 					<td id="strawberrySoldRow">Sold</td>
 					<td id="strawberryExpiredRow">Expired</td>
+					<td>$8</td>
+					<td id="strawberryProfit"></td>
+				</tr>
+				<tr>
+					<td style="font-weight: bold;">Total</td>
+					<td style="font-weight: bold;" id="totalSoldRow">Sold</td>
+					<td style="font-weight: bold;" id="totalExpiredRow">Expired</td>
+					<td></td>
+					<td style="font-weight: bold;" id="totalProfit"></td>
 				</tr>
 			</table>
 			
 		</div>
 			<br>
-			<h3 id="profitBox">Total Profit: </h3>
-			<h3 id="newBalanceBox">New Bank Balance: </h3>
-			<button style="background-color: #bf6c5a; padding: 3px;" id="newWeekButton">Play Again!</button>
+			<h3>Total Bank Balance: <span style="font-family: 'Courier New', Courier, monospace;" id="newBalanceBox"></span></h3>
+			<button style="background-color: #dd9281; padding: 3px;" id="newWeekButton">Play Again!</button>
 		</div>
 	</div>
 	  
